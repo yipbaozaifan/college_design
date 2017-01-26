@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://localhost:8080/share/static/";
+/******/ 	__webpack_require__.p = "http://localhost:3000/static/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -13265,7 +13265,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-2496a77b/App.vue"
+	  var id = "_v-97cccf32/App.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -13625,7 +13625,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-8d507066/home.vue"
+	  var id = "_v-2d700eb9/home.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -24245,7 +24245,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-545c48b2/main.vue"
+	  var id = "_v-49ea2293/main.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -24568,7 +24568,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-40b4a4b4/UserView.vue"
+	  var id = "_v-619f1f8c/UserView.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -24775,7 +24775,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-3bce4667/ItemList.vue"
+	  var id = "_v-2b5908fb/ItemList.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -25263,7 +25263,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-48fc19a7/modal.vue"
+	  var id = "_v-03867f93/modal.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -25437,7 +25437,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-53d6850a/navigation.vue"
+	  var id = "_v-e88a1ac4/navigation.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -25710,7 +25710,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-54878c16/post.vue"
+	  var id = "_v-953a8eac/post.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -25753,7 +25753,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t.upload{\n\t\tmargin-bottom: 1.5em;\n    \tbox-shadow: 0 0 5px #888888;\n    \tposition: relative;\n\t}\n\t.main{\n\t\ttext-align: center;\n\t}\n\t#addPic{\n\t\tdisplay: inline-block;\n\t\twidth: 63px;\n\t\theight: 63px;\n\t}\n\t#describe{\n\t\twidth: 100%;\n\t\tborder: none;\n\t\tmin-height:150px;\n\t}\n\t.preview{\n\t\tdisplay: inline-block;\n\t\twidth: 63px;\n\t\theight: 63px;\n\t\tmargin: 0 10px 0 0;\n\t}\n\t.preview img{\n\t\twidth: 63px;\n\t\theight: 63px;\n\t}\n\t#submit_pic{\n\t\tbackground: #31b0d5;\n\t\tcolor: #fff;\n\t}\n\t.tips{\n\t\tposition: absolute;\n\t\twidth: 20%;\n\t\tbackground-color: #fff;\n\t\tpadding: 5px 8px;\n\t\ttop:40%;\n\t\tleft: 40%;\n\t}\n\t.tips span{\n\t\tdisplay: inline-block;\n\t\tvertical-align: middle;\n\t}\n\t\n\t.tips_message{\n\t\tfont-size: 1.2em;\n\t\tmargin: 0 5px;\n\t}\n\t.success_tips{\n\t\tbackground: url(" + __webpack_require__(56) + ");\n\t}\n\t.fail_tips{\n\t\tbackground: url(" + __webpack_require__(57) + ");\n\t}\n\t.tips_logo{\n\t\twidth: 30px;\n\t\theight: 30px;\n\t\tbackground-size:contain;\n\t}\n", "", {"version":3,"sources":["/./src/components/post.vue?53e5775e"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CA2IA;EACA,qBAAA;KACA,4BAAA;KACA,mBAAA;EACA;CACA;EACA,mBAAA;EACA;CACA;EACA,sBAAA;EACA,YAAA;EACA,aAAA;EACA;CACA;EACA,YAAA;EACA,aAAA;EACA,iBAAA;EACA;CACA;EACA,sBAAA;EACA,YAAA;EACA,aAAA;EACA,mBAAA;EACA;CACA;EACA,YAAA;EACA,aAAA;EACA;CACA;EACA,oBAAA;EACA,YAAA;EACA;CACA;EACA,mBAAA;EACA,WAAA;EACA,uBAAA;EACA,iBAAA;EACA,QAAA;EACA,UAAA;EACA;CACA;EACA,sBAAA;EACA,uBAAA;EACA;;CAEA;EACA,iBAAA;EACA,cAAA;EACA;CACA;EACA,0CAAA;EACA;CACA;EACA,0CAAA;EACA;CACA;EACA,YAAA;EACA,aAAA;EACA,wBAAA;EACA","file":"post.vue","sourcesContent":["<template>\r\n\t<div class=\"row upload\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<textarea placeholder=\"说两句吧\" id =\"describe\"></textarea>\r\n\t\t</div>\r\n\t\t<hr style=\"width: 70%\">\r\n\t\t<div class=\"col-md-10\" style=\"margin-bottom: 1.5em;\">\r\n\t\t\t<input type=\"file\" @change=\"onFileChange\" style=\"display: none;\">\r\n\t\t\t<div style=\"padding: 0;margin: 0; text-align:left;\">\r\n\t\t\t\t<a v-for=\"(key,image) in images\" class=\"preview\" track-by=\"$index\">\r\n\t\t\t\t\t<img :src=\"image\" @click='delImage(key)' />\r\n\t\t\t\t</a>\r\n\t\t\t\t<a id='addPic' href=\"\" v-on:click=\"addPic\" v-if=\"pic_count<6\">\r\n\t\t\t\t\t<img src=\"../logo/addPic.png\">\r\n\t\t\t\t</a>\r\n\t\t\t</div>\t\t            \r\n        </div>\r\n        <div class=\"col-md-2\">\r\n\t\t\t<a class=\"btn\" id=\"submit_pic\" @click.prevent.stop=\"submitPic\">发布</a>\r\n\t\t</div>\r\n\t\t<div class=\"tips\" v-if=\"show_tips\">\r\n\t\t\t<span class=\"tips_logo\" :class=\"{success_tips:tips_state,fail_tips:!tips_state}\"></span>\r\n\t\t\t<span class=\"tips_message\">success</span>\r\n\t\t</div>\r\n\t</div>\r\n</template>\r\n\r\n<script>\r\n\timport $ from 'jquery';\r\n\timport api from '../tools/api/dataApi.js';\r\n\texport default {\r\n\t\tprops:['items','now_tab'],\r\n\t\tdata(){\r\n\t\t\treturn{\r\n\t\t\t\tpic_count:0,\r\n\t\t\t\timages:[],\r\n\t\t\t\tfiles:[],\r\n\t\t\t\tshow_tips:false,\r\n\t\t\t\ttips_message:\"\",\r\n\t\t\t\ttips_state:true\r\n\t\t\t}\r\n\t\t},  \r\n\t\tmethods:{\r\n\t\t\taddPic(e){\r\n\t\t\t\te.preventDefault();\r\n                $('input[type=file]').trigger('click');\r\n                return false;\r\n\t\t\t},\r\n\t\t\tonFileChange(e) {\r\n                var files = e.target.files || e.dataTransfer.files;\r\n                if (!files.length)return; \r\n                this.createImage(files);\r\n            },\r\n            createImage(file) {\r\n                if(typeof FileReader==='undefined'){\r\n                    alert('您的浏览器不支持图片上传，请升级您的浏览器');\r\n                    return false;\r\n                }\r\n                var image = new Image();         \r\n                var vm = this;\r\n                var reader = new FileReader();\r\n                reader.readAsDataURL(file[0]); \r\n                reader.onload =function(e){\r\n                \tvm.files.push(file[0]);\r\n                \tvm.images.push(e.target.result);\r\n                \tvm.pic_count++;                       \r\n                }                        \r\n            },\r\n            delImage:function(index){\r\n            \tthis.files.splice(index,1)\r\n                this.images.splice(index,1);\r\n                this.pic_count--;\r\n            },\r\n            reload:function(){\r\n            \tconsole.log(this.now_tab);\r\n            \tvar shareitems,like_list,comment_list;\r\n      \t\t\tvar new_itemList = [];\r\n\t            if(this.now_tab=='mine'){\r\n\t          \t\t\tshareitems = api.fnc.GetMyPicList().data;\r\n\t      \t\t}else if(this.now_tab == 'all'){\r\n\t          \t\t\tshareitems =api.fnc.GetPicList().data;\r\n\t      \t\t}\r\n\t\t\t\tconsole.log(shareitems);\r\n\t\t\t\tfor(var i = 0;i<shareitems.length;i++){\r\n\t\t\t\t    var item = {\r\n\t\t\t\t           \tcommentFlag:false,\r\n\t\t\t\t            had_like:false,\r\n\t\t\t\t            had_collect:true,\r\n\t\t\t\t            user:shareitems[i].user,\r\n\t\t\t\t            share:shareitems[i].share,\r\n\t\t\t\t            picList:shareitems[i].photoList,\r\n\t\t\t\t            like:[],\r\n\t\t\t\t            comment:[]\r\n\t\t\t\t        };\r\n\t\t\t\t    var id = {\r\n\t\t\t\t            share_id : shareitems[i].share.share_id\r\n\t\t\t\t        }\r\n\t\t\t\t    like_list = api.fnc.GetLike(id).data;\r\n\t\t\t\t    comment_list = api.fnc.GetComment(id).data;\r\n\t\t\t\t    item.like = like_list;\r\n\t\t\t\t    item.comment = comment_list;\r\n\t\t\t\t    new_itemList.push(item);\r\n\t\t\t\t}\r\n\t\t\t\tthis.items = new_itemList;\r\n            },\r\n            submitPic:function(){\r\n            \tvar describe = $('#describe').val();\r\n            \tvar data = {\r\n            \t\timgs:this.files,\r\n            \t\tdescribe:describe,\r\n            \t}\r\n            \tvar myForm = new FormData();\r\n            \tconsole.log(this.files);\r\n            \tmyForm.append('content',describe);\r\n            \tfor(var i = 0;i<this.files.length;i++){\r\n            \t\tmyForm.append(\"files\",this.files[i]);\r\n            \t}\r\n            \t//var xhr = new XMLHttpRequest();       \r\n\t\t\t\t//xhr.open(\"POST\" ,\"http://localhost:8080/share/user/Share\");\r\n\t\t\t\t//xhr.send(myForm);\r\n            \tapi.fnc.PostPic(myForm);\r\n           \t\t//var vm = this;\r\n           \t\t/*if(result.state = 0){\r\n           \t\t\tthis.tips_state = true;\r\n           \t\t}else{\r\n           \t\t\tthis.tips_state = false;\r\n           \t\t}*/\r\n            \t//this.tips_message = result.data.message;\r\n            \t//this.show_tips=true;\r\n            \tthis.files = [];\r\n            \t$('#describe').val(\"\");\r\n            \tthis.images = [];\r\n            \tthis.reload();\r\n            }\r\n\t\t}\r\n\t}\r\n</script>\r\n\r\n<style type=\"text/css\">\r\n\t.upload{\r\n\t\tmargin-bottom: 1.5em;\r\n    \tbox-shadow: 0 0 5px #888888;\r\n    \tposition: relative;\r\n\t}\r\n\t.main{\r\n\t\ttext-align: center;\r\n\t}\r\n\t#addPic{\r\n\t\tdisplay: inline-block;\r\n\t\twidth: 63px;\r\n\t\theight: 63px;\r\n\t}\r\n\t#describe{\r\n\t\twidth: 100%;\r\n\t\tborder: none;\r\n\t\tmin-height:150px;\r\n\t}\r\n\t.preview{\r\n\t\tdisplay: inline-block;\r\n\t\twidth: 63px;\r\n\t\theight: 63px;\r\n\t\tmargin: 0 10px 0 0;\r\n\t}\r\n\t.preview img{\r\n\t\twidth: 63px;\r\n\t\theight: 63px;\r\n\t}\r\n\t#submit_pic{\r\n\t\tbackground: #31b0d5;\r\n\t\tcolor: #fff;\r\n\t}\r\n\t.tips{\r\n\t\tposition: absolute;\r\n\t\twidth: 20%;\r\n\t\tbackground-color: #fff;\r\n\t\tpadding: 5px 8px;\r\n\t\ttop:40%;\r\n\t\tleft: 40%;\r\n\t}\r\n\t.tips span{\r\n\t\tdisplay: inline-block;\r\n\t\tvertical-align: middle;\r\n\t}\r\n\t\r\n\t.tips_message{\r\n\t\tfont-size: 1.2em;\r\n\t\tmargin: 0 5px;\r\n\t}\r\n\t.success_tips{\r\n\t\tbackground: url(\"../logo/success.png\");\r\n\t}\r\n\t.fail_tips{\r\n\t\tbackground: url(\"../logo/fail.png\");\r\n\t}\r\n\t.tips_logo{\r\n\t\twidth: 30px;\r\n\t\theight: 30px;\r\n\t\tbackground-size:contain;\r\n\t}\r\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t.upload{\n\t\tmargin-bottom: 1.5em;\n    \tbox-shadow: 0 0 5px #888888;\n    \tposition: relative;\n\t}\n\t.main{\n\t\ttext-align: center;\n\t}\n\t#addPic{\n\t\tdisplay: inline-block;\n\t\twidth: 63px;\n\t\theight: 63px;\n\t}\n\t#describe{\n\t\twidth: 100%;\n\t\tborder: none;\n\t\tmin-height:150px;\n\t}\n\t.preview{\n\t\tdisplay: inline-block;\n\t\twidth: 63px;\n\t\theight: 63px;\n\t\tmargin: 0 10px 0 0;\n\t}\n\t.preview img{\n\t\twidth: 63px;\n\t\theight: 63px;\n\t}\n\t#submit_pic{\n\t\tbackground: #31b0d5;\n\t\tcolor: #fff;\n\t}\n\t.tips{\n\t\tposition: absolute;\n\t\twidth: 20%;\n\t\tbackground-color: #fff;\n\t\tpadding: 5px 8px;\n\t\ttop:40%;\n\t\tleft: 40%;\n\t}\n\t.tips span{\n\t\tdisplay: inline-block;\n\t\tvertical-align: middle;\n\t}\n\t\n\t.tips_message{\n\t\tfont-size: 1.2em;\n\t\tmargin: 0 5px;\n\t}\n\t.success_tips{\n\t\tbackground: url(" + __webpack_require__(56) + ");\n\t}\n\t.fail_tips{\n\t\tbackground: url(" + __webpack_require__(57) + ");\n\t}\n\t.tips_logo{\n\t\twidth: 30px;\n\t\theight: 30px;\n\t\tbackground-size:contain;\n\t}\n", "", {"version":3,"sources":["/./src/components/post.vue?0dd99929"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CA4IA;EACA,qBAAA;KACA,4BAAA;KACA,mBAAA;EACA;CACA;EACA,mBAAA;EACA;CACA;EACA,sBAAA;EACA,YAAA;EACA,aAAA;EACA;CACA;EACA,YAAA;EACA,aAAA;EACA,iBAAA;EACA;CACA;EACA,sBAAA;EACA,YAAA;EACA,aAAA;EACA,mBAAA;EACA;CACA;EACA,YAAA;EACA,aAAA;EACA;CACA;EACA,oBAAA;EACA,YAAA;EACA;CACA;EACA,mBAAA;EACA,WAAA;EACA,uBAAA;EACA,iBAAA;EACA,QAAA;EACA,UAAA;EACA;CACA;EACA,sBAAA;EACA,uBAAA;EACA;;CAEA;EACA,iBAAA;EACA,cAAA;EACA;CACA;EACA,0CAAA;EACA;CACA;EACA,0CAAA;EACA;CACA;EACA,YAAA;EACA,aAAA;EACA,wBAAA;EACA","file":"post.vue","sourcesContent":["<template>\r\n\t<div class=\"row upload\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<textarea placeholder=\"说两句吧\" id =\"describe\"></textarea>\r\n\t\t</div>\r\n\t\t<hr style=\"width: 70%\">\r\n\t\t<div class=\"col-md-10\" style=\"margin-bottom: 1.5em;\">\r\n\t\t\t<input type=\"file\" @change=\"onFileChange\" style=\"display: none;\">\r\n\t\t\t<div style=\"padding: 0;margin: 0; text-align:left;\">\r\n\t\t\t\t<a v-for=\"(key,image) in images\" class=\"preview\" track-by=\"$index\">\r\n\t\t\t\t\t<img :src=\"image\" @click='delImage(key)' />\r\n\t\t\t\t</a>\r\n\t\t\t\t<a id='addPic' href=\"\" v-on:click=\"addPic\" v-if=\"pic_count<6\">\r\n\t\t\t\t\t<img src=\"../logo/addPic.png\">\r\n\t\t\t\t</a>\r\n\t\t\t</div>\t\t            \r\n        </div>\r\n        <div class=\"col-md-2\">\r\n\t\t\t<a class=\"btn\" id=\"submit_pic\" @click.prevent.stop=\"submitPic\">发布</a>\r\n\t\t</div>\r\n\t\t<div class=\"tips\" v-if=\"show_tips\">\r\n\t\t\t<span class=\"tips_logo\" :class=\"{success_tips:tips_state,fail_tips:!tips_state}\"></span>\r\n\t\t\t<span class=\"tips_message\">success</span>\r\n\t\t</div>\r\n\t</div>\r\n</template>\r\n\r\n<script>\r\n\timport $ from 'jquery';\r\n\timport api from '../tools/api/dataApi.js';\r\n\texport default {\r\n\t\tprops:['items','now_tab'],\r\n\t\tdata(){\r\n\t\t\treturn{\r\n\t\t\t\tpic_count:0,\r\n\t\t\t\timages:[],\r\n\t\t\t\tfiles:[],\r\n\t\t\t\tshow_tips:false,\r\n\t\t\t\ttips_message:\"\",\r\n\t\t\t\ttips_state:true\r\n\t\t\t}\r\n\t\t},  \r\n\t\tmethods:{\r\n\t\t\taddPic(e){\r\n\t\t\t\te.preventDefault();\r\n                $('input[type=file]').trigger('click');\r\n                return false;\r\n\t\t\t},\r\n\t\t\tonFileChange(e) {\r\n                var files = e.target.files || e.dataTransfer.files;\r\n                if (!files.length)return; \r\n                this.createImage(files);\r\n            },\r\n            createImage(file) {\r\n                if(typeof FileReader==='undefined'){\r\n                    alert('您的浏览器不支持图片上传，请升级您的浏览器');\r\n                    return false;\r\n                }\r\n                var image = new Image();         \r\n                var vm = this;\r\n                var reader = new FileReader();\r\n                reader.readAsDataURL(file[0]); \r\n                reader.onload =function(e){\r\n                \tvm.files.push(file[0]);\r\n                \tvm.images.push(e.target.result);\r\n                \tvm.pic_count++;                       \r\n                }                        \r\n            },\r\n            delImage:function(index){\r\n            \tthis.files.splice(index,1)\r\n                this.images.splice(index,1);\r\n                this.pic_count--;\r\n            },\r\n            reload:function(){\r\n            \tconsole.log(this.now_tab);\r\n            \tvar shareitems,like_list,comment_list;\r\n      \t\t\tvar new_itemList = [];\r\n\t            if(this.now_tab=='mine'){\r\n\t          \t\t\tshareitems = api.fnc.GetMyPicList().data;\r\n\t      \t\t}else if(this.now_tab == 'all'){\r\n\t          \t\t\tshareitems =api.fnc.GetPicList().data;\r\n\t      \t\t}\r\n\t\t\t\tconsole.log(shareitems);\r\n\t\t\t\tfor(var i = 0;i<shareitems.length;i++){\r\n\t\t\t\t    var item = {\r\n\t\t\t\t           \tcommentFlag:false,\r\n\t\t\t\t            had_like:false,\r\n\t\t\t\t            had_collect:true,\r\n\t\t\t\t            user:shareitems[i].user,\r\n\t\t\t\t            share:shareitems[i].share,\r\n\t\t\t\t            picList:shareitems[i].photoList,\r\n\t\t\t\t            like:[],\r\n\t\t\t\t            comment:[]\r\n\t\t\t\t        };\r\n\t\t\t\t    var id = {\r\n\t\t\t\t            share_id : shareitems[i].share.share_id\r\n\t\t\t\t        }\r\n\t\t\t\t    like_list = api.fnc.GetLike(id).data;\r\n\t\t\t\t    comment_list = api.fnc.GetComment(id).data;\r\n\t\t\t\t    item.like = like_list;\r\n\t\t\t\t    item.comment = comment_list;\r\n\t\t\t\t    new_itemList.push(item);\r\n\t\t\t\t}\r\n\t\t\t\tthis.items = new_itemList;\r\n            },\r\n            submitPic:function(){\r\n            \tvar describe = $('#describe').val();\r\n            \tvar data = {\r\n            \t\timgs:this.files,\r\n            \t\tdescribe:describe,\r\n            \t}\r\n            \tvar myForm = new FormData();\r\n            \tconsole.log(this.files);\r\n            \tmyForm.append('content',describe);\r\n            \tfor(var i = 0;i<this.files.length;i++){\r\n            \t\tmyForm.append(\"files\",this.files[i]);\r\n            \t}\r\n            \t//var xhr = new XMLHttpRequest();       \r\n\t\t\t\t//xhr.open(\"POST\" ,\"http://localhost:8080/share/user/Share\");\r\n\t\t\t\t//xhr.send(myForm);\r\n            \tapi.fnc.PostPic(myForm);\r\n           \t\t//var vm = this;\r\n           \t\t/*if(result.state = 0){\r\n           \t\t\tthis.tips_state = true;\r\n           \t\t}else{\r\n           \t\t\tthis.tips_state = false;\r\n           \t\t}*/\r\n            \t//this.tips_message = result.data.message;\r\n            \t//this.show_tips=true;\r\n            \tthis.files = [];\r\n            \t$('#describe').val(\"\");\r\n            \tthis.images = [];\r\n            \t\r\n            \tthis.reload();\r\n            }\r\n\t\t}\r\n\t}\r\n</script>\r\n\r\n<style type=\"text/css\">\r\n\t.upload{\r\n\t\tmargin-bottom: 1.5em;\r\n    \tbox-shadow: 0 0 5px #888888;\r\n    \tposition: relative;\r\n\t}\r\n\t.main{\r\n\t\ttext-align: center;\r\n\t}\r\n\t#addPic{\r\n\t\tdisplay: inline-block;\r\n\t\twidth: 63px;\r\n\t\theight: 63px;\r\n\t}\r\n\t#describe{\r\n\t\twidth: 100%;\r\n\t\tborder: none;\r\n\t\tmin-height:150px;\r\n\t}\r\n\t.preview{\r\n\t\tdisplay: inline-block;\r\n\t\twidth: 63px;\r\n\t\theight: 63px;\r\n\t\tmargin: 0 10px 0 0;\r\n\t}\r\n\t.preview img{\r\n\t\twidth: 63px;\r\n\t\theight: 63px;\r\n\t}\r\n\t#submit_pic{\r\n\t\tbackground: #31b0d5;\r\n\t\tcolor: #fff;\r\n\t}\r\n\t.tips{\r\n\t\tposition: absolute;\r\n\t\twidth: 20%;\r\n\t\tbackground-color: #fff;\r\n\t\tpadding: 5px 8px;\r\n\t\ttop:40%;\r\n\t\tleft: 40%;\r\n\t}\r\n\t.tips span{\r\n\t\tdisplay: inline-block;\r\n\t\tvertical-align: middle;\r\n\t}\r\n\t\r\n\t.tips_message{\r\n\t\tfont-size: 1.2em;\r\n\t\tmargin: 0 5px;\r\n\t}\r\n\t.success_tips{\r\n\t\tbackground: url(\"../logo/success.png\");\r\n\t}\r\n\t.fail_tips{\r\n\t\tbackground: url(\"../logo/fail.png\");\r\n\t}\r\n\t.tips_logo{\r\n\t\twidth: 30px;\r\n\t\theight: 30px;\r\n\t\tbackground-size:contain;\r\n\t}\r\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -25922,6 +25922,7 @@
 	      this.files = [];
 	      (0, _jquery2.default)('#describe').val("");
 	      this.images = [];
+	
 	      this.reload();
 	    }
 	  }
@@ -26032,7 +26033,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-2becace8/backTop.vue"
+	  var id = "_v-6d7547d4/backTop.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -26181,7 +26182,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-32783dfa/user-List.vue"
+	  var id = "_v-3445cde6/user-List.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -26425,7 +26426,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-e0f3cf2a/login.vue"
+	  var id = "_v-c312a202/login.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -26656,7 +26657,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-626577b0/signIn.vue"
+	  var id = "_v-3187b39c/signIn.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -26841,7 +26842,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-4bf61c46/personalPage.vue"
+	  var id = "_v-1b8d8cc9/personalPage.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -27256,7 +27257,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-8841f614/userCenter.vue"
+	  var id = "_v-18791aec/userCenter.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -27548,7 +27549,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "_v-34d49ecc/rank.vue"
+	  var id = "_v-59adf786/rank.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
