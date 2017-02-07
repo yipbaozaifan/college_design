@@ -35,19 +35,19 @@
 					username:username,
 					password:password
 				}
-				var res = api.fnc.UserLogin(data);
-				console.log(res);
-				/*var res = "{"+
+				//var res = api.fnc.UserLogin(data);
+				//console.log(res);
+				var res = "{"+
 					"state:1,"+
 					"data:{"+
-						"user_id:'12312321',"+
-						"name:'fsdfdsf',"+
+						"_id:'12312321',"+
+						"nicName:'fsdfdsf',"+
 						"role:'user',"+
-						"url:'sdfdsfsd'"+
+						"url:'sdfdsfsd',"
 						"}"+
-					"}"*/
-				var result = res;
-				//var result = res.parseJSON();
+					"}"
+				//var result = res;
+				var result = res.parseJSON();
 				console.log(result);
 				if(result.state==0){
 					console.log(result.message);

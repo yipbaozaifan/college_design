@@ -24,18 +24,21 @@ var fnc = {
 					}
 				}else{
 					result = {
-						'state' : 0,
+						'state' : 1,
 						'message' :'login success!',
 						'data':[
 							{
+								_id:person[0]._id,
 								username:person[0].username,
-								password:person[0].password
+								password:person[0].password,
+								nicName:person[0].nicName,
+								url:person[0].url,
+								survey:person[0].survey
 							}
 						]
 					}
 				}
 			}
-			
 			res.send(result);
 		})
 	},

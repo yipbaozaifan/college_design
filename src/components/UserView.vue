@@ -9,7 +9,7 @@
     </div>
     <div class="row user-info">
       <div class="col-md-12 login_username">
-        <span>{{login_user.user.name}}</span>
+        <span>{{login_user.user.nicName}}</span>
       </div>
       <div class="col-md-12 login_userintro" v-if="role != 'admin'">
         <a v-link= "{name:'rank',params:{role:login_user.user.role}}" class="join_us">榜单</a>
@@ -19,19 +19,19 @@
     <div class="row user-detail" v-if="role == 'user'">
       <ul class="detail-list list-inline">
         <li class="detail-item">
-          <p class="detail-item-number">{{login_user.fans}}</p>
-          <a class="detail-item-name" v-link="{name:'personal',params:{name:login_user.user.user_id,type:'fans'}}">粉丝</a>
+          <p class="detail-item-number">{{login_user.survey_num}}</p>
+          <a class="detail-item-name" v-link="{name:'personal',params:{name:login_user.user.user_id,type:'fans'}}">我的问卷</a>
         </li>
         <li></li>
         <li class="detail-item">
-          <p class="detail-item-number">{{login_user.fo}}</p>
-          <a class="detail-item-name"  v-link="{name:'personal',params:{name:login_user.user.user_id,type:'fo'}}">关注</a>
+          <p class="detail-item-number">{{login_user.user.done_survey.length}}</p>
+          <a class="detail-item-name"  v-link="{name:'personal',params:{name:login_user.user.user_id,type:'fo'}}">已填问卷</a>
         </li>
         <li></li>
-        <li class="detail-item">
+        <!--<li class="detail-item">
           <p class="detail-item-number">{{login_user.pics}}</p>
           <a class="detail-item-name"  v-link="{name:'personal',params:{name:login_user.user.user_id,type:'pics'}}">图片</a>
-        </li>
+        </li>-->
       </ul>
     </div>
     <div class="row user-detail" v-if="role=='visitor'">

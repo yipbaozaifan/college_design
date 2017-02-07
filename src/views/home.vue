@@ -5,8 +5,8 @@
 				<div class="col-lg-12">
 					<div class="intro-message">
 						<h1>share world</h1>
-						<h3>向世界分享你的世界</h3>
-						<a  class = "btn btn-default btn-lg" v-link="{name:'show',params:{role:'visitor'}}">游客登录</a>
+						<h3>简单免费的问卷平台</h3>
+						<a  class = "btn btn-default btn-lg" v-link="{name:'show',params:{role:'visitor'}}">填写问卷</a>
 						<hr style="width:40%">
 						<ul class="list-inline">
 							<li>

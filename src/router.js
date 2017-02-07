@@ -1,5 +1,5 @@
 export default(router) => router.map({
-	"/show/:role":{
+	"/show":{
 		name:"show",
 		component: require('./views/main.vue')
 	},

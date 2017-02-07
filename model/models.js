@@ -5,36 +5,53 @@ var db = mongoose.createConnection('mongodb://localhost/demo');
 var UserSchema = new mongoose.Schema({
 	username:String,
 	password:String,
-	role:String
+	nicName:String,
+	url:String,
+	role:String,
+	done_survey:[mongoose.Schema.Types.ObjectId]
 })
-//用户信息数据库
-var userMessageSchema = new mongoose.Schema({
-	name:String,
-	fans:Number,
-	fo:Number,
-	pics:Number,
-	head_pic:String,
-	intro:String
+
+//问卷数据库
+var survey = new mongoose.Schema({
+	user:mongoose.Schema.Types.ObjectId,
+	begin:mongoose.Schema.Types.ObjectId,
+	end:mongoose.Schema.Types.ObjectId,
+	background:String,
+	survey_name:String,
+	count:Number,
+	questions:[mongoose.Schema.Types.ObjectId],
+	tab:String
 })
-//图片分享数据库
-var picListSchema = new mongoose.Schema({
-	picsId:String,
-	author:String,
-	author_head:String,
-	pics:Array,
-	likeNum:Number
+//问卷中每条问题的数据库（选项型问题）
+var questions = new mongoose.Schema({
+	survey:mongoose.Schema.Types.ObjectId,
+	order:Number,
+	describe:String,
+	type:String,
+	options:[mongoose.Schema.Types.ObjectId]
 })
-//图片评论数据库
-var picCommentSchema = new mongoose.Schema({
-	picsId:String,
-	replyTo:String,
-	author:String,
+//问题数据库（问答型问题）
+var text_questions = new mongoose.Schema({
+	survey:mongoose.Schema.Types.ObjectId,
+	order:Number,
+	describe:String,
+	type:String,
+	answer:String
+})
+var options = new mongoose.Schema({
+	question:mongoose.Schema.Types.ObjectId,
+	order:Number,
 	content:String
 })
+//各问题回答
+var answers = new mongoose.Schema({
+	survey:mongoose.Schema.Types.ObjectId,
+	questions:mongoose.Schema.Types.ObjectId,
+	choices:String
+})
+
 db.on('error', function(error) {
   console.log(error);
 });
 
-exports.User =db.model('Users', UserSchema);
-exports.
 exports.db = db;

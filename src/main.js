@@ -28,7 +28,7 @@ router.beforeEach(function (transition) {
 
 
 router.redirect({
-  '*': 'home'
+  '*': 'show'
 })
 
 router.start(App, '#app')
