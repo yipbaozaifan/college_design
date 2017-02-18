@@ -1,13 +1,17 @@
 <template>
 	<div class="container " style="text-align: center;" id="loginPage">
 		<div class="row">
-				<div class="login-pannel col-md-4 col-md-offset-4">
-					<h2>join us</h2>
+				<div class="login-pannel col-md-4 col-md-offset-7">
+					<h3 style="color: #31b0d5">join us</h3>
 					<input type="text" name="username" v-model="username" placeholder="username">
 					<input type="password" name="password" v-model="password" placeholder="password">
-					<div style="width: 75%;margin: 20px auto 0 auto">
+					<div style="width: 80%;margin: 20px auto 0 auto">
 						<a class="signup_btn" v-on:click = "signUp">注册</a>
-						<a class="home_btn" v-link = "{name:'home'}">首页</a>
+					</div>
+					<div class="other_choices">
+						<a href="">登录</a>
+						<span>|</span>
+						<a href="">返回</a>
 					</div>
 				</div>
 		</div>
@@ -61,22 +65,34 @@
 		background-size: cover;
 	}
 	.login-pannel{
-		margin-top: 250px;
+		box-shadow: 0 0 5px #eee;
+		border-radius: 15px;
+		margin-top: 150px;
 		padding: 1.5em;
 		background: #fff;
 	}
 	.login-pannel input{
 		display: block;
-		width: 75%;
-		margin: 10px auto;
-		font-size: 1.5em;
+		width: 80%;
+		margin: 20px auto;
+		padding: 10px 0 10px 10px;
+    	line-height: 18px;
+    	font-size: 1em;
 	}
-	.signup_btn,.home_btn{
+	.signup_btn{
+		width: 100%;
 		background-color: #31b0d5;
 		padding: 0 1.5em;
 		color: #fff;
 		display: inline-block;
-		line-height: 2em;
+		line-height:38px ;
 		border-radius: 5px;
+	}
+	.other_choices{
+		margin-top:20px;
+		color: #999;
+	}
+	.other_choices a {
+		color: #999;
 	}
 </style>

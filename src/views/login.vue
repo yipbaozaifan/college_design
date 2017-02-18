@@ -1,13 +1,17 @@
 <template>
 	<div class="container " style="text-align: center;" id="loginPage">
 		<div class="row">
-				<div class="login-pannel col-md-4 col-md-offset-4">
-					<h2>welcome</h2>
+				<div class="login-pannel col-md-4 col-md-offset-7">
+					<h3 style="color: #31b0d5">welcome</h3>
 					<input type="text" name="username" v-model="username" placeholder="username">
 					<input type="password" name="password" v-model="password" placeholder="password">
 					<div style="width: 75%;margin: 20px auto 0 auto">
 						<a class="login_btn" v-on:click = "login">登录</a>
-						<a class="btn" v-link = "{name:'signIn'}">没有账号？</a>
+					</div>
+					<div class="other_choices">
+						<a href="">注册</a>
+						<span>|</span>
+						<a href="">返回</a>
 					</div>
 				</div>
 		</div>
@@ -47,14 +51,14 @@
 						"}"+
 					"}"
 				//var result = res;
-				var result = res.parseJSON();
+				//var result = res.parseJSON();
 				console.log(result);
-				if(result.state==0){
+				if(!res){
 					console.log(result.message);
-				}else if(result.state==1){
-					var user =  result.data;
+				}else if(1){
+					//var user =  result.data;
 					window.sessionStorage.setItem("user",JSON.stringify(user));
-					this.$router.go({name : 'show',params: {role:user.role}});
+					this.$router.go({name : 'show'});
 				}
 			}
 		},
@@ -76,26 +80,38 @@
 		background-size: cover;
 	}
 	.login-pannel{
-		margin-top: 250px;
+		box-shadow: 0 0 5px #eee;
+		border-radius: 15px;
+		margin-top: 150px;
 		padding: 1.5em;
 		background: #fff;
 	}
 	.login-pannel input{
 		display: block;
-		width: 75%;
-		margin: 10px auto;
-		font-size: 1.5em;
+		width: 80%;
+		margin: 20px auto;
+		padding: 10px 0 10px 10px;
+    	line-height: 18px;
+    	font-size: 1em;
 	}
 	.login-pannel h2{
 		color: #31b0d5;
 		margin-top: 0;
 	}
 	.login_btn{
+		width: 100%;
 		background-color: #31b0d5;
 		padding: 0 1.5em;
 		color: #fff;
 		display: inline-block;
-		line-height: 2em;
+		line-height:38px ;
 		border-radius: 5px;
+	}
+	.other_choices{
+		margin-top:20px;
+		color: #999;
+	}
+	.other_choices a {
+		color: #999;
 	}
 </style>
