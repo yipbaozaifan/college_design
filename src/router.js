@@ -20,19 +20,28 @@ export default(router) => router.map({
 		name : "signIn",
 		component : require("./views/signIn.vue")
 	},
-	"/personalPage/:name":{
-		name:'personal',
-		auth:true,
-		component: require('./views/personalPage.vue')
+	"/create":{
+		name : "create",
+		component : require("./views/create.vue")
 	},
-	"/personalPage/:name/:type":{
-		name:'personal',
-		auth:true,
-		component: require('./views/personalPage.vue')
+	"/mysurvey":{
+		name : "mysurvey",
+		component : require("./views/mySurvey.vue")
 	},
-	"/rank/:role":{
-		name:'rank',
-		auth:true,
-		component: require('./views/rank.vue')
+	"/template":{
+		name : "template",
+		component : require("./views/template.vue")
+	},
+	'/editpage':{
+		name : "edit",
+		component : require('./views/edit_page.vue')
+	},
+	'/fill/:survey_id':{
+		name : "fill",
+		component : require('./views/fill.vue')
+	},
+	'/fill':{
+		name : 'fill',
+		component : require('./views/fill.vue')
 	}
 })
