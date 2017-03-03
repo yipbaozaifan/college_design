@@ -32,7 +32,7 @@ export default(router) => router.map({
 		name : "template",
 		component : require("./views/template.vue")
 	},
-	'/editpage':{
+	'/editpage/:user_id/:survey_id':{
 		name : "edit",
 		component : require('./views/edit_page.vue')
 	},
@@ -43,5 +43,9 @@ export default(router) => router.map({
 	'/fill':{
 		name : 'fill',
 		component : require('./views/fill.vue')
+	},
+	'/analyze/:survey_id':{
+		name : 'analyze',
+		component : require('./views/analyze.vue')
 	}
 })
