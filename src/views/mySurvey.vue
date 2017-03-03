@@ -5,10 +5,10 @@
   		<!-- You can use dropdown component -->
   		<!-- For right positioning use slot -->
   	  <li>
-  	  	<a href="" class="nav_btn">创建问卷</a>
+  	  	<a v-link="{path:'/create'}" class="nav_btn">创建问卷</a>
   	  </li>
   	  <li>
-  	  	<a href="" class="nav_btn">我的问卷</a>
+  	  	<a v-link="{path:'/mysurvey'}" class="nav_btn">我的问卷</a>
   	  </li>
 	  <li slot="right" id="nav_userbar">
 	    <img src="../img/boy.png" class="navbar_head"><span class="navbar_name">野仔湛</span><span id="splitor">|</span><a id="nav_exit_btn">退出</a>
@@ -19,73 +19,22 @@
 	</div>
 	<div class="mySurvey">
 			<div class="warp survey_content">
-						<span class="survey_item">
-							<img src="../img/2.jpg" class="survey_img">
-							<div class="title_warp">
-								<a href="" class="survey_title">survey title</a>
-							</div>
-							<div class="status_warp">
-								<span>状态：</span>
-								<span>status</span>
-							</div>
-						</span>
-						<span class="survey_item">
-							<img src="../img/2.jpg" class="survey_img">
-							<div class="title_warp">
-								<a href="" class="survey_title">survey title</a>
-							</div>
-							<div class="status_warp">
-								<span>状态：</span>
-								<span>status</span>
-							</div>
-						</span>
-						<span class="survey_item">
-							<img src="../img/2.jpg" class="survey_img">
-							<div class="title_warp">
-								<a href="" class="survey_title">survey title</a>
-							</div>
-							<div class="status_warp">
-								<span>状态：</span>
-								<span>status</span>
-							</div>
-						</span>
-						<span class="survey_item">
-							<img src="../img/2.jpg" class="survey_img">
-							<div class="title_warp">
-								<a href="" class="survey_title">survey title</a>
-							</div>
-							<div class="status_warp">
-								<span>状态：</span>
-								<span>status</span>
-							</div>
-						</span>
-						<span class="survey_item">
-							<img src="../img/2.jpg" class="survey_img">
-							<div class="title_warp">
-								<a href="" class="survey_title">survey title</a>
-							</div>
-							<div class="status_warp">
-								<span>状态：</span>
-								<span>status</span>
-							</div>
-						</span>
-						<span class="survey_item">
-							<img src="../img/2.jpg" class="survey_img">
-							<div class="title_warp">
-								<a href="" class="survey_title">survey title</a>
-							</div>
-							<div class="status_warp">
-								<span>状态：</span>
-								<span>status</span>
-							</div>
-						</span>
+				<span class="survey_item" v-for="item in survey_items">
+					<img src="../img/2.jpg" class="survey_img">
+					<div class="title_warp">
+						<a class="mysurvey_title" v-on:click="go_edit(item._id)">{{item.title}}</a>
+					</div>
+					<div class="status_warp">
+						<span>状态：</span>
+						<span>{{item.status}}</span>
+					</div>
+				</span>
 			</div>
 	</div>
 	<backtop></backtop>
 </template>
 
 <script>
-	import $ from 'jquery';
 	import api from '../tools/api/dataApi.js';
 	import navigation from '../components/navigation.vue';
 	import backtop from '../components/backTop.vue';
@@ -102,22 +51,21 @@
     	},
 		data(){
 			return{
-				flag:true,  
-				search_flag:true,
 				login_user:{
-					user:{},
-					survey_num:0
+					user_id:'2112121'
 				},
-				survey_items:[],
-				login_role:"",
-				is_user:false,
-				is_admin:false,
-				users_list:[]
+				survey_items:[
+				{_id:'112332123',title:'fsjklsdjlkf',status:'未发放'},
+				{_id:'112332123',title:'fsjklsdjlkf',status:'未发放'},
+				{_id:'112332123',title:'fsjklsdjlkf',status:'未发放'},
+				{_id:'112332123',title:'fsjklsdjlkf',status:'未发放'},
+				{_id:'112332123',title:'fsjklsdjlkf',status:'未发放'},
+				]
 			}
 		},  
 		methods:{
-			getItemList(tab,timeStamp,role){
-				
+			go_edit(template_id){
+				this.$router.go({name:'edit',params:{user_id:this.login_user.user_id,survey_id:template_id}})
 			}
 		},
 		route:{

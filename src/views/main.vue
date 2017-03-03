@@ -5,13 +5,13 @@
   		<!-- You can use dropdown component -->
   		<!-- For right positioning use slot -->
   	  <li>
-  	  	<a href="" class="nav_btn">创建问卷</a>
+  	  	<a v-link="{path:'/create'}" class="nav_btn">创建问卷</a>
   	  </li>
   	  <li>
-  	  	<a href="" class="nav_btn">我的问卷</a>
+  	  	<a v-link="{path:'/mysurvey'}" class="nav_btn">我的问卷</a>
   	  </li>
 	  <li slot="right" id="nav_userbar">
-	    <img src="../img/boy.png" class="navbar_head"><span class="navbar_name">野仔湛</span><span id="splitor">|</span><a id="nav_exit_btn">退出</a>
+	    <img v-bind:src="login_user.head" class="navbar_head"><span class="navbar_name">{{login_user.name}}</span><span id="splitor">|</span><a id="nav_exit_btn">退出</a>
 	  </li>
 	</navbar>
 	<div class="main">
@@ -46,7 +46,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-6 users_count">
-							<span class="users_num">123456</span>
+							<span class="users_num">{{survey_sum}}</span>
 							<span>人在正在使用</span>
 						</div>
 						<div class="col-sm-6 entry">
@@ -64,41 +64,11 @@
 						</div>
 					</div>
 					<div class="row template_list">
-						<div class="col-sm-2 template_item">
+						<div class="col-sm-2 template_item" v-for="item in template_list" v-on:click="useTemplate(item.template_id,login_user.id)">
 							<div class="template_img">
-								<img src="../img/talent.png" >
+								<img v-bind:src="item.template_head" >
 							</div>
-							<span class="template_name">模板模板</span>
-						</div>
-						<div class="col-sm-2 template_item">
-							<div class="template_img">
-								<img src="../img/talent.png" >
-							</div>
-							<span class="template_name">模板模板</span>
-						</div>
-						<div class="col-sm-2 template_item">
-							<div class="template_img">
-								<img src="../img/talent.png" >
-							</div>
-							<span class="template_name">模板模板</span>
-						</div>
-						<div class="col-sm-2 template_item">
-							<div class="template_img">
-								<img src="../img/talent.png" >
-							</div>
-							<span class="template_name">模板模板</span>
-						</div>
-						<div class="col-sm-2 template_item">
-							<div class="template_img">
-								<img src="../img/talent.png" >
-							</div>
-							<span class="template_name">模板模板</span>
-						</div>
-						<div class="col-sm-2 template_item">
-							<div class="template_img">
-								<img src="../img/talent.png" >
-							</div>
-							<span class="template_name">模板模板</span>
+							<span class="template_name">{{item.template_name}}</span>
 						</div>
 					</div>
 				</div>
@@ -144,9 +114,20 @@
 				flag:true,  
 				search_flag:true,
 				login_user:{
-					user:{},
-					survey_num:0
+					head:'./src/img/boy.png',
+					id:"201330330223",
+					name:'野仔湛',
+					role:'user'
 				},
+				template_list:[
+					{template_name:"模板1",template_id:'1112332',template_head:'./src/img/talent.png'},
+					{template_name:'ddsdssd',template_id:'1232312',template_head:'./src/img/talent.png'},
+					{template_name:'dsdfdf',template_id:'1233231',template_head:'./src/img/talent.png'},
+					{template_name:'dsfsfs',template_id:'2133212',template_head:'./src/img/talent.png'},
+					{template_name:'sdfdssf',template_id:'3123213',template_head:'./src/img/talent.png'},
+					{template_name:'fddasd',template_id:'1232132',template_head:'./src/img/talent.png'}
+				],
+				survey_sum:1000,
 				survey_items:[],
 				login_role:"",
 				is_user:false,
@@ -157,6 +138,9 @@
 		methods:{
 			getItemList(tab,timeStamp,role){
 				
+			},
+			useTemplate(template_id,user_id){
+				this.$router.go({name:'edit',params:{user_id:user_id,survey_id:template_id}})
 			}
 		},
 		route:{
@@ -230,6 +214,12 @@
 	}
 	.template_list{
 		padding-bottom: 30px;
+	}
+	.template_item{
+		cursor: pointer;
+	}
+	.template_item:hover .template_name{
+		color: #58a6e7;
 	}
 	.template_head{
 		margin-bottom: 20px;

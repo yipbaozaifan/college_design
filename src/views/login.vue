@@ -41,25 +41,11 @@
 				}
 				//var res = api.fnc.UserLogin(data);
 				//console.log(res);
-				var res = "{"+
-					"state:1,"+
-					"data:{"+
-						"_id:'12312321',"+
-						"nicName:'fsdfdsf',"+
-						"role:'user',"+
-						"url:'sdfdsfsd',"
-						"}"+
-					"}"
+				//var res = "{state:1,+data:{_id:'12312321',nicName:'fsdfdsf',+role:'user',url:'sdfdsfsd'}}"
 				//var result = res;
-				//var result = res.parseJSON();
-				console.log(result);
-				if(!res){
-					console.log(result.message);
-				}else if(1){
-					//var user =  result.data;
-					window.sessionStorage.setItem("user",JSON.stringify(user));
-					this.$router.go({name : 'show'});
-				}
+				//var result =JSON.parse(res);
+				//console.log(result);
+				this.$router.go("show");
 			}
 		},
 		router:{

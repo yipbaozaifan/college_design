@@ -2,37 +2,48 @@
 	<div class="fill">
 			<div class="fill_content">
 				<div class="container fill_main">
-					<div class="survey_title">
+					<div class="survey_title" v-show="now_page==0">
 							<div class="inner">
 								<div class="title_content">
 									<p>
-										问卷标题
+										{{title}}
 									</p>
 								</div> 
 							</div>
 					</div>
-					<div class="survey_intro">
+					<div class="survey_intro" v-show="now_page==0">
 							<div class="inner">
 								<div class="intro_content">
 									<p>
-										问卷欢迎语
+										{{intro}}
 									</p>
 								</div>
 							</div>
 					</div>
-					<div class="question">
+					<div class="survey_end" v-show="now_page==-1">
+						<div class="inner">
+							<div class="end_content">
+								<img src="../img/end.png">
+								<p>&nbsp;</p>
+								<p>
+									{{end}}
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="question" v-if="now_page!=-1&&now_page!=0">
 						<div class="inner">
 							<div class="title">
 								<div class="title_index">
 									<span class="question_index">
-										 2
+										 {{now_page}}
 									</span>
 									.
 								</div>
 								<div class="title_text">
 									<p>
-										问题问题问题问题问题
-										<span style="color: #53aaf3;margin-left: 3px;">
+										{{questions[now_page-1].title}}
+										<span style="color: #53aaf3;margin-left: 3px;" v-show='questions[now_page-1].type=="checkbox"'>
 											[多选题]
 										</span>
 										<span style="color: red;">
@@ -43,31 +54,39 @@
 							</div>
 							<div class="description">
 								<div class="description_text">
-									描述描述描述描述描述
+									{{questions[now_page-1].desc}}
 								</div>
 							</div>
 							<div class="input">
-								<div class="fill_option_item">
-									<checkbox value="one" type="info">选项1选项1选项1</checkbox>
-								</div>
-								<div class="fill_option_item">
-									<checkbox value="one" type="info">选项1选项1选项1</checkbox>
-								</div>
-								<div class="fill_option_item">
-									<checkbox value="one" type="info">选项1选项1选项1</checkbox>
-								</div>
-								<div class="fill_option_item">
-									<radio value="two" type="info">选项2选项2选项2</radio>
-								</div>
-								<div class="fill_from_input">
-									<vueinput type="textarea" required></vueinput>
-								</div> 
+								<template v-if="questions[now_page-1].type=='checkbox'">
+									<div class="fill_option_item" v-for='item in questions[now_page-1].options'>
+									<checkbox :value="item.value" type="info" :checked.sync="item.checked">{{item.value}}</checkbox>
+									</div>
+								</template>
+								<template v-if="questions[now_page-1].type=='radio'">
+									<div class="fill_option_item" v-for='item in questions[now_page-1].options'>
+									<radio :value="item.value" type="info" :checked.sync="questions[now_page-1].value">{{item.value}}</radio>
+									</div>
+								</template>
+								<template v-if='questions[now_page-1].type=="text"'>
+									<div class="fill_from_input" >
+									<vueinput type="text" :value.sync = 'questions[now_page-1].value'></vueinput>
+									</div> 
+								</template>
+								<template v-if='questions[now_page-1].type=="textarea"'>
+									<div class="fill_from_input" >
+									<vueinput type="textarea" :value.sync = 'questions[now_page-1].value'></vuein put>
+									</div> 
+								</template>
 							</div>
 						</div>
 					</div>
 					<div class="survey_control">
 						<div class="inner">
-							<a href="" class="survey_btn next_btn">提交</a>
+							<a class="survey_btn" v-show='now_page>1' v-on:click="page_preview()">上一题</a>
+							<a class="survey_btn next_btn" v-show='now_page>=1&&now_page<questions.length' v-on:click="page_next(questions[now_page-1].type,questions[now_page-1].required)">下一题</a>
+							<a class="survey_btn next_btn" v-show='now_page==questions.length' v-on:click="submit()">提交</a>
+							<a class="survey_btn" v-show='now_page==0' v-on:click="start()">开始</a>
 						</div>
 					</div>
 				</div>
@@ -75,8 +94,7 @@
 	</div>
 </template>
 
-<script>
-	import $ from 'jquery'; 
+<script> 
 	import api from '../tools/api/dataApi.js';
 	import {checkbox} from 'vue-strap';
 	import {radio} from 'vue-strap';
@@ -89,22 +107,64 @@
     	},
 		data(){
 			return{
-				flag:true,  
-				search_flag:true,
-				login_user:{
-					user:{},
-					survey_num:0
+				now_survey:{
+					_id:'12312313',
+					status:1
 				},
-				survey_items:[],
-				login_role:"",
-				is_user:false,
-				is_admin:false,
-				users_list:[]
+				questions:[
+					{title:'dsfkljfkldsfjsk',desc:'sdfdsfds',type:'checkbox',required:true,options:[
+					{value:'sldjfdskl',checked:null},
+					{value:'sldjfdskl',checked:null},
+					{value:'sldjfdskl',checked:null},
+					],value:''},
+					{title:'dfsfdsfs ',desc:'dsfdfsd ',type:'checkbox',required:false,options:[
+					{value:'sldjfdskl',checked:null},
+					{value:'sldjfdskl',checked:null},
+					{value:'sldjfdskl',checked:null},
+					],value:""},
+					{title:'dfdsfdsfds',desc:'dfsdfdff',type:'textarea',required:false,options:[],value:''},
+					{title:'dfsfdsfs ',desc:'dsfdfsd ',type:'radio',required:true,options:[
+					{value:'sldjfdskl',checked:null},
+					{value:'sdfsdf ',checked:null},
+					{value:'123123',checked:null},
+					],value:""},
+					{title:'dfdsfdsfds',desc:'dfsdfdff',type:'text',required:false,options:[],value:''},
+					{title:'dfdsfdsfds',desc:'dfsdfdff',type:'text',required:false,options:[],value:''},
+					{title:'dfdsfdsfds',desc:'dfsdfdff',type:'text',required:false,options:[],value:''},
+				],
+				answers:[],
+				now_page:0,
+				title:"问卷标题",
+				intro:'为了给您提供更好的服务，希望您能抽出几分钟时间，将您的感受和建议告诉我们，我们非常重视每位用户的宝贵意见，期待您的参与！现在我们就马上开始吧！',
+				end:"问卷到此结束，感谢您的参与"
 			}
 		},  
 		methods:{
-			getItemList(tab,timeStamp,role){
-				
+			start(){
+				this.now_page = 1;
+			},
+			page_preview(){
+				this.now_page--;
+			},
+			page_next(type,required){
+				if(type == 'radio' ||type == 'text' || type == 'textarea'){
+					if(required&&this.questions[this.now_page-1].value==''){
+						alert('此题必填');
+					}else{
+						this.now_page++;
+					}
+				}else if ( type == 'checkbox'){
+					var checked_box = document.querySelectorAll("input:checked");
+					var checked_value = [];
+					if(required&&checked_box.length==0){
+						alert('此题必填');
+					}else{
+						this.now_page++;
+					}
+				}	
+			},
+			submit(){
+				this.now_page = -1;
 			}
 		},
 		route:{
@@ -131,7 +191,7 @@
 	h2{
 		color:#fff;
 	}
-	.survey_title{
+	.survey_title,.survey_end{
 		text-align: center;
 		font-weight: 500;
 		padding:5px 0;
@@ -146,6 +206,9 @@
 	.title_content,.intro_content{
 		padding: 10px 0;
 		
+	}
+	.end_content{
+		font-size: 16px;
 	}
 	.survey_control{
 		overflow: hidden;
