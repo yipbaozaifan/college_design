@@ -193,16 +193,16 @@
 		},  
 		methods:{
 			_isRepeat(arr){
-				var arrStr = arr.join(',');
-				console.log(arr);
-				console.log(arrStr)
-				for(var i = 0;i<arr.length;i++){
-					if(arrStr.replace(arr[i]+",","").indexOf(arr[i])>-1){
-						console.log("is repeat")
-						return false;
+				//检测数组重复，存在重复返回true，不存在返回false
+				var hash= {};
+				for(var i = 0 ; i<arr.length;i++){
+					if(!hash[arr[i]]){
+						hash[arr[i]] = true;
+					}else{
+						return true;
 					}
 				}
-				return true ;
+				return false;
 			},
 			_preview(e){
 				var pages_bar = document.querySelector('#pages_list');
@@ -268,31 +268,28 @@
 				//判断标题非空
 				if(this.title==''){
 					alert('问卷标题不能为空');
-				}else{
-					for(var i = 0;i<this.questions.length;i++){
+					return false;
+				}
+				//判断问题标题非空
+				for(var i = 0;i<this.questions.length;i++){
 						if(this.questions[i].title==''){
 							alert("第"+i+"题标题为空");
 							return false; 
 						}
 						if(this.questions[i].type=='radio'||this.questions[i].type=="checkbox"){
-							if(this.questions[i].options.length==0){
-								alert("第"+i+"题未添加选项");
+							if(this.questions[i].options.length==0){//检测有无选项
+								alert("第"+(i+1)+"题未添加选项");
+								return false;
+							}else if(this.questions[i].options.indexOf("")>-1){//检测存在空选项
+								alert("第"+(i+1)+"题选项为空");
+								return false;
+							}else if(this._isRepeat(this.questions[i].options)){//检测重复选项
+								alert("第"+(i+1)+"题有相同选项");
 								return false;
 							}
 						}
-					}
-				}
-				//选项重复性检查
-				for(var j = 0;j<this.questions.length;j++){
-					 if(this.questions[j].type=='radio'||this.questions[j].type=="checkbox"){
-						if(this._isRepeat(this.questions[j].options)){
-							var repeat_index = j+1;
-							alert('第'+repeat_index+"题有相同选项，请检查！");
-							return false;
-						}
-					}           
-				}
-				console.log(this.questions);
+				 }
+				 console.log(this.questions)
 			},
 			open_link(url){
 				window.open(url);
