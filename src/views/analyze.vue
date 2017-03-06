@@ -27,7 +27,95 @@
 		<div class="analyze_content">
 			<div class="analyze_main">
 				<div class="analyze_main_content">
-					<div class="analyze_chart"></div>
+					<div id="analyze_overview" v-if="now_tab==1">
+						<div class="overview_warp">
+							<div class="overview_modules">
+								<div class="overview_module">
+									<div class="overview_module_inner">
+										<h4 class="module_title">问卷浏览量</h4>
+										<p class="module_data">
+											<span class="module_data_number">2</span>
+										</p>
+										<p class="adding_word">问卷实时访问量</p>
+									</div>
+								</div>
+								<div class="overview_module">
+									<div class="overview_module_inner">
+										<h4 class="module_title">问卷填写量</h4>
+										<p class="module_data">
+											<span class="module_data_number">2</span>
+										</p>
+										<p class="adding_word">问卷实时回收量</p>
+									</div>
+								</div>
+								<div class="overview_module">
+									<div class="overview_module_inner">
+										<h4 class="module_title">回收率</h4>
+										<p class="module_data">
+											<span class="module_data_number">33%</span>
+										</p>
+										<p class="adding_word">回收率=回收量/浏览量</p>
+									</div>
+								</div>
+								<div class="overview_module">
+									<div class="overview_module_inner">
+										<h4 class="module_title">平均完成时间</h4>
+										<p class="module_data">
+											<span class="module_data_number">5</span>
+											<span>分</span>
+											<span class="module_data_number">10</span>
+											<span>秒</span>
+										</p>
+										<p class="adding_word"></p>
+									</div>
+								</div>
+							</div>
+						</div>  
+					</div>
+					<div id="analyze_recycle">
+						<div class="recycle_filter">
+							<div class="legend">
+								<span class="title">问卷标题</span>
+								<span class="id">ID:12312313</span>
+							</div>
+							<div class="info">
+								<a class="info_icon" id="refresh_data">
+									<i class="refresh_icon"></i>
+								</a>
+								<a class="info_icon delete_answer_btn" id="delete_answer">
+									<i class="del_icon"></i>
+								</a>
+							</div>
+						</div>
+						<div class="table">
+							<div class="data_table_warpper">
+								<table id="recycle_table">
+									<thead>
+										<tr>
+											<th class="input_th">
+												<input type="checkbox" name="delete_checkbox_all" id="delete_checkbox_all">
+											</th>
+											<th>编号</th>
+											<th>开始答题时间</th>
+											<th>结束答题时间</th>
+											<th  v-for="item in questions">
+												<span>{{item.title}}</span>
+											</th>
+										</tr>
+									</thead>
+									<tbody id="list">
+										<tr>
+											<td class="input_td"></td>
+											<td>1</td>
+											<td>17-02-08 11:15:12</td>
+											<td>17-02-08 11:15:12</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="analyze_sidebar">
@@ -166,7 +254,6 @@
 		height: 100%;
 		background-color: #f0f0f0;
 		padding-top: 50px;
-		overflow: hidden;
 	}
 	.analyze_content{
 		height: 100%;
@@ -265,6 +352,53 @@
 	}
 	.sidebar_item.current .overview_ico .icon .needle{
 		background-position: -137px -529px;
+	}
+	.overview_warp{
+		height: 100%;
+	}
+	#analyze_overview{
+		width: 88%;
+		height: 100%;
+		margin: 0px auto;
+	}
+	#analyze_overview .overview_warp .overview_modules{
+		display: flex;
+		height: 100%;
+		justify-content: space-around;
+		align-items: center;
+		align-content: space-around;
+		flex-wrap: wrap;
+	}
+	#analyze_overview .overview_warp .overview_modules .overview_module{
+		height: 200px;
+		flex-shrink: 0;
+		flex-basis: 48%;
+		background-color: #fff;
+		border:1px solid #e7e7e7;
+		box-shadow: 1px 2px 2px #e7e7e7;
+	}
+	#analyze_overview .overview_warp .overview_modules .overview_module .overview_module_inner{
+		margin:20px;
+	}
+	#analyze_overview .module_title{
+		color: #333;
+		font-size: 14px;
+	}
+	#analyze_overview .module_data{
+		margin-top: 40px;
+		font-size: 12px;
+		text-align: center;
+		color: #333;
+	}
+	#analyze_overview .module_data .module_data_number{
+		font-size: 37px;
+		line-height: 37px;
+	}
+	#analyze_overview .adding_word{
+		text-align: center;
+		font-size: 12px;
+		color: #999;
+		margin-top: 4px;
 	}
 	/*overview end*/
 	/*recycle*/
