@@ -72,7 +72,7 @@
 							</div>
 						</div>  
 					</div>
-					<div id="analyze_recycle">
+					<div id="analyze_recycle" v-if="now_tab==0">
 						<div class="recycle_filter">
 							<div class="legend">
 								<span class="title">问卷标题</span>
@@ -93,7 +93,10 @@
 									<thead>
 										<tr>
 											<th class="input_th">
-												<input type="checkbox" name="delete_checkbox_all" id="delete_checkbox_all">
+												<input type="checkbox" name="delete_checkbox_all" id="delete_checkbox_all" class="survey_form_checkbox">
+												<label for="delete_checkbox_all" class="del_input_label">
+													<i class="survey_form_ui"></i>
+												</label>
 											</th>
 											<th>编号</th>
 											<th>开始答题时间</th>
@@ -105,7 +108,9 @@
 									</thead>
 									<tbody id="list">
 										<tr>
-											<td class="input_td"></td>
+											<td class="input_td">
+												<input class="survey_form_checkbox" type="checkbox" name="delete_checkbox">
+											</td>
 											<td>1</td>
 											<td>17-02-08 11:15:12</td>
 											<td>17-02-08 11:15:12</td>
@@ -115,6 +120,9 @@
 								</table>
 							</div>
 						</div>
+					</div>
+					<div id="analyze_chart" v-if="now_tab==2">
+						
 					</div>
 				</div>
 			</div>
@@ -181,6 +189,9 @@
 				survey_link:'http://localhost:8080/#!/fill/',
 				questions:[
 					{title:'dsfkljfkldsfjsk',desc:'sdfdsfds',type:'checkbox',
+					options:['sldjfdskl','fsldjfdskl','sldjfdskl']
+					},
+					{title:'dfsfdsfs ',desc:'dsfdfsd ',type:'radio',
 					options:['sldjfdskl','fsldjfdskl','sldjfdskl']
 					},
 					{title:'dfsfdsfs ',desc:'dsfdfsd ',type:'radio',
@@ -426,6 +437,111 @@
 	}
 	.sidebar_item .recycle_ico .icon .recycle_inner_line.recycle_inner_line_3{
 		top:25px;
+	}
+	#analyze_recycle{
+		background-color: #fff;
+		border:1px solid #ddd;
+		min-height: 500px;
+		position: relative;
+		width: 94%;
+		margin: 30px auto 0 auto;
+	}
+	#analyze_recycle .recycle_filter{
+		padding: 20px;
+		position: relative;
+	}
+	#analyze_recycle .recycle_filter .legend{
+		margin-bottom: 20px;
+	}
+	#analyze_recycle .recycle_filter .legend .title{
+		font-size: 20px;
+	}
+	#analyze_recycle .recycle_filter .legend .id{
+		margin-left: 10px;
+		font-size: 14px;
+		color: #999;
+	}
+	#analyze_recycle .recycle_filter .info{
+		position: absolute;
+		top: 20px;
+		right: 20px;
+	}
+	#analyze_recycle .recycle_filter .info .info_icon{
+		display: block;
+		text-align: center;
+		width: 38px;
+		height: 38px;
+		position: relative;
+	}
+	#analyze_recycle .recycle_filter .info a{
+		float: left;
+		margin-left:12px;
+		border:1px solid #d6d6d6;
+		font-size: 14px;
+		cursor: pointer; 
+	}
+	#analyze_recycle .recycle_filter .info .refresh_icon{
+		background-image: url(../img/sprites_ico.png);
+		background-position: 0px -619px;
+		display: block;
+		width: 22px;
+		height: 24px;
+		position: absolute;
+		left: 50%;
+		top:50%;
+		margin-left:-11px;
+		margin-top: -12px;  
+	}
+	#analyze_recycle .recycle_filter .info .del_icon{
+		background-image: url(../img/sprites_ico.png);
+		background-position: -19px -664px;
+		display: block;
+		width: 18px;
+		height: 20px;
+		position: absolute;
+		left: 50%;
+		top:50%;
+		margin-left:-9px;
+		margin-top: -10px;  
+	}
+	#analyze_recycle .table{
+		position: relative;
+		display: block;
+	}
+	#analyze_recycle .data_table_warpper{
+		margin: 0 20px 20px 20px;
+		text-align: center;
+		position: relative;
+		z-index: 10;
+		overflow-x: auto;
+	}
+	#recycle_table{
+		min-width: 100%;
+	}
+	#analyze_recycle .data_table_warpper thead{
+		position: sticky;	
+	}
+	#analyze_recycle .data_table_warpper thead th{
+		color: #999;
+		text-align: center;
+		background-color: #fafafa;
+		border-top: 1px solid #ddd;
+		border-bottom: 1px solid #ddd;
+		padding: 15px 17px;
+		font-size: 14px;
+		white-space: nowrap;
+		overflow: hidden;
+		max-width: 200px;
+		text-overflow: ellipsis;	
+	}
+	#analyze_recycle .data_table_warpper tbody td{
+		font-size: 14px;
+		text-align: center;
+		color: #666;
+		padding: 15px 27px 15px 17px;
+		border-bottom: 1px solid #eee;
+		position: relative;
+		white-space: nowrap;
 	}
 	/*recycle end*/
 	/*chart*/
