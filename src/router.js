@@ -1,15 +1,10 @@
 export default(router) => router.map({
-	"/show":{
+	"/show/:user_id":{
 		name:"show",
 		component: require('./views/main.vue')
 	},
-	"/show/tab/:tab/:role":{
-		name:"tab",
-		auth:true,
-		component:require('./views/main.vue')
-	},
 	"/home":{
-		name : "home",
+		name:'home',
 		component : require("./views/home.vue")
 	},
 	"/loginPage":{
@@ -20,11 +15,11 @@ export default(router) => router.map({
 		name : "signIn",
 		component : require("./views/signIn.vue")
 	},
-	"/create":{
+	"/create/:user_id":{
 		name : "create",
 		component : require("./views/create.vue")
 	},
-	"/mysurvey":{
+	"/mysurvey/:user_id":{
 		name : "mysurvey",
 		component : require("./views/mySurvey.vue")
 	},
@@ -38,10 +33,6 @@ export default(router) => router.map({
 	},
 	'/fill/:survey_id':{
 		name : "fill",
-		component : require('./views/fill.vue')
-	},
-	'/fill':{
-		name : 'fill',
 		component : require('./views/fill.vue')
 	},
 	'/analyze/:survey_id':{

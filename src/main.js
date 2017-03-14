@@ -33,7 +33,7 @@ Vue.directive('edit',{
 
 router.beforeEach(function (transition) {
   window.scrollTo(0, 0);
-  if(transition.to.auth){
+  /*if(transition.to.auth){
   	if(!window.sessionStorage.getItem("user")){
   		transition.redirect({'name':"home"});
   	}else{
@@ -41,12 +41,12 @@ router.beforeEach(function (transition) {
   	}
   }else{
       transition.next();
-  }
+  }*/
+  transition.next();
 });
 
-
 router.redirect({
-  '*': 'home'
+  '*': '/home'
 })
 
 router.start(App, '#app')
