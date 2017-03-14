@@ -34,16 +34,16 @@
 				var username = this.username;
 				var password = this.password;
 				var data = {
-					username:username,
-					password:password
+					'username':username,
+					'password':password,
+					'nicName':'野仔湛'
 				}
-				var result = api.fnc.NewUserSignUp(data);
-				console.log(result);
-				if(result){
-					this.$router.go({name : 'home'});
-				}else{
-					alert("用户已经存在");
-				}
+
+				var result = this.$http.post('/signIn',data).then(function(res){
+					console.log(res);
+				},function(err){
+					console.log(err);
+				})
 			}
 		},
 		router:{

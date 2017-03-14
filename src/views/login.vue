@@ -21,7 +21,11 @@
 <script>
 	import $ from 'jquery';
 	import api from '../tools/api/dataApi.js';
+	import {navbar} from 'vue-strap';
 	export default {
+		components:{
+			navbar
+		},
 		data(){
 			return{
 				username : '',
@@ -39,13 +43,13 @@
 					username:username,
 					password:password
 				}
-				//var res = api.fnc.UserLogin(data);
-				//console.log(res);
-				//var res = "{state:1,+data:{_id:'12312321',nicName:'fsdfdsf',+role:'user',url:'sdfdsfsd'}}"
-				//var result = res;
-				//var result =JSON.parse(res);
-				//console.log(result);
-				this.$router.go("show");
+				this.$http.get('/login',{params:data}).then(function(res){
+					console.log(res.data);
+					var user_id = res.data.data[0]._id;
+					this.$router.go({name:'show',params:{user_id:user_id}});
+				},function(err){
+					console.log(err);
+				})
 			}
 		},
 		router:{

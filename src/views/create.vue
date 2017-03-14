@@ -19,7 +19,7 @@
 						<div class="col-sm-6 create_by_empty bg_c1">
 							<div class="type_show"></div>
 							<h2 style="color:#fff">创建空白问卷</h2>
-							<a class="btn start_btn">开始创建</a>
+							<a class="btn start_btn" v-on:click='create'>开始创建</a>
 						</div>
 						<div class="col-sm-6 create_by_template bg_c2">
 							<div class="type_show"></div>
@@ -52,8 +52,7 @@
 				flag:true,  
 				search_flag:true,
 				login_user:{
-					user:{},
-					survey_num:0
+					id:''
 				},
 				survey_items:[],
 				login_role:"",
@@ -63,11 +62,32 @@
 			}
 		},  
 		methods:{
-			getItemList(tab,timeStamp,role){
-				
+			create(){
+				console.log(typeof this.login_user.id)
+				var blank_survey = {
+					user:this.login_user.id,
+					intro:'为了给您提供更好的服务，希望您能抽出几分钟时间，将您的感受和建议告诉我们，我们非常重视每位用户的宝贵意见，期待您的参与！现在我们就马上开始吧！',
+					survey_name:'问卷标题',
+					end:'问卷到此结束，感谢您的参与！',
+					count:0,
+					status:1,
+					question:0
+				}
+				var vm = this;
+				this.$http.put('/create',blank_survey).then(function(res){
+						var new_survey_id = res.data.data[0].id;
+						var user_id = vm.login_user.id;
+						vm.$router.go({name:'edit',params:{user_id:user_id,survey_id:new_survey_id}})
+				},function(err){
+					console.log('出错了')
+				})
 			}
 		},
 		route:{
+			activate(transition){
+				this.login_user.id = this.$route.params.user_id;
+				transition.next();
+			}
 		}
 	}
 </script>

@@ -5,13 +5,13 @@
   		<!-- You can use dropdown component -->
   		<!-- For right positioning use slot -->
   	  <li>
-  	  	<a v-link="{path:'/create'}" class="nav_btn">创建问卷</a>
+  	  	<a v-link="{name:'create',params:{user_id:login_user.user_id}}" class="nav_btn">创建问卷</a>
   	  </li>
   	  <li>
-  	  	<a v-link="{path:'/mysurvey'}" class="nav_btn">我的问卷</a>
+  	  	<a v-link="{name:'mysurvey',params:{user_id:login_user.user_id}}" class="nav_btn">我的问卷</a>
   	  </li>
 	  <li slot="right" id="nav_userbar">
-	    <img v-bind:src="login_user.head" class="navbar_head"><span class="navbar_name">{{login_user.name}}</span><span id="splitor">|</span><a id="nav_exit_btn">退出</a>
+	    <img src="../img/boy.png" class="navbar_head"><span class="navbar_name">{{login_user.nicName}}</span><span id="splitor">|</span><a id="nav_exit_btn">退出</a>
 	  </li>
 	</navbar>
 	<div class="main">
@@ -114,14 +114,12 @@
 				flag:true,  
 				search_flag:true,
 				login_user:{
-					head:'./src/img/boy.png',
 					id:"201330330223",
-					name:'野仔湛',
-					role:'user'
+					name:'野仔湛'
 				},
 				template_list:[
 					{template_name:"模板1",template_id:'1112332',template_head:'./src/img/talent.png'},
-					{template_name:'ddsdssd',template_id:'1232312',template_head:'./src/img/talent.png'},
+					{template_name:'模板2',template_id:'1232312',template_head:'./src/img/talent.png'},
 					{template_name:'dsdfdf',template_id:'1233231',template_head:'./src/img/talent.png'},
 					{template_name:'dsfsfs',template_id:'2133212',template_head:'./src/img/talent.png'},
 					{template_name:'sdfdssf',template_id:'3123213',template_head:'./src/img/talent.png'},
@@ -144,6 +142,19 @@
 			}
 		},
 		route:{
+			activate(transtion){
+				var user_id = this.$route.params.user_id;
+				console.log(user_id);
+				this.$http.get('/search_user',{
+					params:{user_id:user_id}
+				}).then(function(res){
+					this.login_user = res.data.data[0];
+					console.log(this.login_user);
+				},function(err){
+					console.log('出错了');
+				})
+				transtion.next();
+			}
 		}
 	}
 </script>

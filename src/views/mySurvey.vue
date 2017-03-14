@@ -5,10 +5,10 @@
   		<!-- You can use dropdown component -->
   		<!-- For right positioning use slot -->
   	  <li>
-  	  	<a v-link="{path:'/create'}" class="nav_btn">创建问卷</a>
+  	  	<a v-link="{name:'create',params:{user_id:login_user.user_id}}" class="nav_btn">创建问卷</a>
   	  </li>
   	  <li>
-  	  	<a v-link="{path:'/mysurvey'}" class="nav_btn">我的问卷</a>
+  	  	<a v-link="{name:'create',params:{user_id:login_user.user_id}}" class="nav_btn">我的问卷</a>
   	  </li>
 	  <li slot="right" id="nav_userbar">
 	    <img src="../img/boy.png" class="navbar_head"><span class="navbar_name">野仔湛</span><span id="splitor">|</span><a id="nav_exit_btn">退出</a>
@@ -22,7 +22,7 @@
 				<span class="survey_item" v-for="item in survey_items">
 					<img src="../img/2.jpg" class="survey_img">
 					<div class="title_warp">
-						<a class="mysurvey_title" v-on:click="go_edit(item._id)">{{item.title}}</a>
+						<a class="mysurvey_title" v-on:click="go_edit(item._id)">{{item.survey_name}}</a>
 					</div>
 					<div class="status_warp">
 						<span>状态：</span>
@@ -51,16 +51,8 @@
     	},
 		data(){
 			return{
-				login_user:{
-					user_id:'2112121'
-				},
-				survey_items:[
-				{_id:'112332123',title:'fsjklsdjlkf',status:'未发放'},
-				{_id:'112332123',title:'fsjklsdjlkf',status:'未发放'},
-				{_id:'112332123',title:'fsjklsdjlkf',status:'未发放'},
-				{_id:'112332123',title:'fsjklsdjlkf',status:'未发放'},
-				{_id:'112332123',title:'fsjklsdjlkf',status:'未发放'},
-				]
+				login_user:{},
+				survey_items:[]
 			}
 		},  
 		methods:{
@@ -69,6 +61,21 @@
 			}
 		},
 		route:{
+			activate(transition){
+				this.login_user.user_id = this.$route.params.user_id;
+				var vm = this;
+				this.$http.get('/my_surveys',{
+					params : {
+						user_id : this.login_user.user_id
+					}
+				}).then(function(res){
+					console.log(res.data);
+					vm.survey_items = res.data.data[0].surveys;
+				},function(err){
+					console.log('error')
+				})
+				transition.next()
+			}
 		}
 	}
 </script>

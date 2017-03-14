@@ -111,32 +111,9 @@
 					_id:'12312313',
 					status:1
 				},
-				questions:[
-					{title:'dsfkljfkldsfjsk',desc:'sdfdsfds',type:'checkbox',required:true,options:[
-					{value:'sldjfdskl',checked:null},
-					{value:'sldjfdskl',checked:null},
-					{value:'sldjfdskl',checked:null},
-					],value:''},
-					{title:'dfsfdsfs ',desc:'dsfdfsd ',type:'checkbox',required:false,options:[
-					{value:'sldjfdskl',checked:null},
-					{value:'sldjfdskl',checked:null},
-					{value:'sldjfdskl',checked:null},
-					],value:""},
-					{title:'dfdsfdsfds',desc:'dfsdfdff',type:'textarea',required:false,options:[],value:''},
-					{title:'dfsfdsfs ',desc:'dsfdfsd ',type:'radio',required:true,options:[
-					{value:'sldjfdskl',checked:null},
-					{value:'sdfsdf ',checked:null},
-					{value:'123123',checked:null},
-					],value:""},
-					{title:'dfdsfdsfds',desc:'dfsdfdff',type:'text',required:false,options:[],value:''},
-					{title:'dfdsfdsfds',desc:'dfsdfdff',type:'text',required:false,options:[],value:''},
-					{title:'dfdsfdsfds',desc:'dfsdfdff',type:'text',required:false,options:[],value:''},
-				],
+				questions:[],
 				answers:[],
 				now_page:0,
-				title:"问卷标题",
-				intro:'为了给您提供更好的服务，希望您能抽出几分钟时间，将您的感受和建议告诉我们，我们非常重视每位用户的宝贵意见，期待您的参与！现在我们就马上开始吧！',
-				end:"问卷到此结束，感谢您的参与"
 			}
 		},  
 		methods:{
@@ -146,25 +123,38 @@
 			page_preview(){
 				this.now_page--;
 			},
-			page_next(type,required){
+			verify(type,required){
 				if(type == 'radio' ||type == 'text' || type == 'textarea'){
 					if(required&&this.questions[this.now_page-1].value==''){
-						alert('此题必填');
+						return false;
 					}else{
-						this.now_page++;
+						return true;
 					}
 				}else if ( type == 'checkbox'){
 					var checked_box = document.querySelectorAll("input:checked");
 					var checked_value = [];
 					if(required&&checked_box.length==0){
-						alert('此题必填');
+						return false;
 					}else{
-						this.now_page++;
+						return true;
 					}
-				}	
+				}
 			},
-			submit(){
-				this.now_page = -1;
+			page_next(type,required){
+				var result = this.verify(type,required);
+				if(result){
+					this.now_page++;
+				}else{
+					alert('此题必填');
+				}
+			},
+			submit(type,required){
+				if(this.verify(type,required)){
+					this.now_page = -1;
+				}else{
+					alert('此题必填')
+				}
+				
 			}
 		},
 		route:{

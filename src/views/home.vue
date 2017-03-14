@@ -13,7 +13,7 @@
 					<div class="intro-message">
 						<h1>share world</h1>
 						<h3>简单免费的问卷平台</h3>
-						<a  class = "btn btn-default btn-lg" v-link="{name:'show',params:{role:'visitor'}}">填写问卷</a>
+						<a  class = "btn btn-default btn-lg">填写问卷</a>
 						<hr style="width:40%">
 						<ul class="list-inline">
 							<li>
@@ -28,7 +28,7 @@
 			</div>
 			<div class="row"></div>
 		</div>
-	</div>
+	</div>	
 </template>
 
 <script>

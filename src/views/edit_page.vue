@@ -5,10 +5,10 @@
   		<!-- You can use dropdown component -->
   		<!-- For right positioning use slot -->
   	  <li>
-  	  	<a v-link="{path:'/create'}" class="nav_btn">创建问卷</a>
+  	  	<a v-link="{name:'create',params:{user_id:login_user.id}}" class="nav_btn">创建问卷</a>
   	  </li>
   	  <li>
-  	  	<a v-link="{path:'/mysurvey'}" class="nav_btn">我的问卷</a>
+  	  	<a v-link="{name:'mysurvey',params:{user_id:login_user.id}}" class="nav_btn">我的问卷</a>
   	  </li>
 	  <li slot="right" id="nav_userbar">
 	    <img src="../img/boy.png" class="navbar_head"><span class="navbar_name">野仔湛</span><span id="splitor">|</span><a id="nav_exit_btn">退出</a>
@@ -59,12 +59,12 @@
 			</div>
 			<div class="survey_main">
 				<div class="cover container" v-if="now_page == 0">
-					<h2 class="title_content" contenteditable="true" v-edit="title">{{title}}</h2>
-					<p class="intro_content" contenteditable="true" v-edit='intro'>{{intro}}</p>
+					<h2 class="title_content" contenteditable="true" v-edit="title">{{now_survey.survey_name}}</h2>
+					<p class="intro_content" contenteditable="true" v-edit='intro'>{{now_survey.intro}}</p>
 				</div>
 				<div class="the_end container" v-if="now_page == -1">
 					<img src="../img/end.png" class="end_pic">
-					<p class="end_content" contenteditable="true" v-edit='end'>{{end}}</p>
+					<p class="end_content" contenteditable="true" v-edit='end'>{{now_survey.end}}</p>
 				</div>
 				<div class="question_warp container" v-if="now_page!=0&&now_page!=-1">
 					<div class="row edit_title">
@@ -160,35 +160,14 @@
     	},
 		data(){
 			return{
-				login_user:{
-					user:{},
-					survey_num:0
-				},
-				now_survey:{
-					_id:'1232313',
-					status:-1
-				},
+				login_user:{},
+				now_survey:{},
 				showModal:false,
 				survey_link:'http://localhost:8080/#!/fill/',
-				questions:[
-					{title:'dsfkljfkldsfjsk',desc:'sdfdsfds',type:'checkbox',
-					options:['sldjfdskl','fsldjfdskl','sldjfdskl']
-					},
-					{title:'dfsfdsfs ',desc:'dsfdfsd ',type:'radio',
-					options:['sldjfdskl','fsldjfdskl','sldjfdskl']
-					},
-					{title:'dfdsfdsfds',desc:'dfsdfdff',type:'text',options:[]},
-				], 
-				pages_array:[
-					{ index:1},
-				],
+				questions:[], 
 				now_page:0,
 				page_index:1,
 				timer:null,
-				append_opt_count:0,
-				title:"问卷标题",
-				intro:'为了给您提供更好的服务，希望您能抽出几分钟时间，将您的感受和建议告诉我们，我们非常重视每位用户的宝贵意见，期待您的参与！现在我们就马上开始吧！',
-				end:"问卷到此结束，感谢您的参与！"
 			}
 		},  
 		methods:{
@@ -231,7 +210,16 @@
 				this.questions.splice(i,1);
 			},
 			_append(){
-				this.questions.push({title:'问卷标题',desc:'备注',type:'radio',options:[]});
+				var new_question = {
+					survey:this.now_survey._id,
+					title:'问题标题',
+					desc:'备注',
+					type:'radio',
+					index:this.questions.length+1,
+					options:[]
+				}
+				this.questions.push(new_question);
+				this.now_survey.question++;
 				this.now_page = this.questions.length;
 			},
 			changePage(index){
@@ -289,13 +277,50 @@
 							}
 						}
 				 }
-				 console.log(this.questions)
+				 var data = {
+				 	survey : this.now_survey,
+				 	questions : this.questions  
+				 }
+				 this.$http.post('/save_survey',data).then(function(res){
+				 	console.log(res.data);
+				 },function(err){
+				 	console.log('fail');
+				 })
 			},
 			open_link(url){
 				window.open(url);
 			}
 		},
 		route:{
+			activate(transition){
+				this.login_user.id = this.$route.params.user_id;
+				var current_survey = this.$route.params.survey_id;
+				var vm = this;
+				this.$http.get('/get_survey',{
+					params:{survey_id:current_survey}
+				}).then(function(res){
+					vm.now_survey = res.data.data[0];
+					vm.title = res.data.data[0].survey_name;
+					vm.intro = res.data.data[0].intro;
+					vm.end = res.data.data[0].end;
+					console.log(typeof vm.now_survey._id);
+					if(!vm.now_survey.question==0){
+						//获取问题
+						var belong_survey = vm.now_survey._id
+						vm.$http.get('/get_questions',{
+							params:{belong_survey:belong_survey}
+						}).then(function(res){
+							console.log(res.data);
+							vm.questions = res.data.data[0].questions;
+						},function(err){
+							console.log('出错了')
+						})
+					}
+				},function(err){
+					console.log('出错了');
+				})
+				transition.next();
+			}
 		}
 	}
 </script>
