@@ -25,13 +25,22 @@ var questions = new mongoose.Schema({
 	desc:String,
 	type:String,
 	index:Number,
-	options:[]
+	options:[{value:String,checked:Boolean}]
 })
-//各问题回答
+/*各问题回答
+*单选题、问答题value只有一个值，多选题多个值
+*target字段表示受访者
+*/
 var answers = new mongoose.Schema({
-	survey:mongoose.Schema.Types.ObjectId,
+	target:String,
+	survey:String,
 	questions:String,
-	choices:String
+	values:[]
+})
+//填写问卷的目标
+var target = new mongoose.Schema({
+	ip:String,
+	date:Date
 })
 
 db.on('error', function(error) {
@@ -41,7 +50,11 @@ db.on('error', function(error) {
 var userModel = db.model('user',UserSchema,'user');
 var surveyModel = db.model('survey',survey,'survey');
 var questionModel = db.model('question',questions,'question');
+var answersModel = db.model('answer',answers,'answer');
+var targetModel = db.model('target',target,'target');
 
 exports.User = userModel;
 exports.Survey = surveyModel;
 exports.Question = questionModel;
+exports.Answer = answersModel;
+exports.Target = targetModel; 
