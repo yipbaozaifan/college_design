@@ -59,8 +59,8 @@
 			</div>
 			<div class="survey_main">
 				<div class="cover container" v-if="now_page == 0">
-					<h2 class="title_content" contenteditable="true" v-edit="title">{{now_survey.survey_name}}</h2>
-					<p class="intro_content" contenteditable="true" v-edit='intro'>{{now_survey.intro}}</p>
+					<h2 class="title_content" contenteditable="true" v-edit="now_survey.survey_name">{{now_survey.survey_name}}</h2>
+					<p class="intro_content" contenteditable="true" v-edit='now_survey.intro'>{{now_survey.intro}}</p>
 				</div>
 				<div class="the_end container" v-if="now_page == -1">
 					<img src="../img/end.png" class="end_pic">
@@ -102,7 +102,7 @@
 								<li class="option_item" v-for="item in questions[now_page-1].options" track-by="$index">
 									<div class="option_input_warp">
 										<div class="mod_editor" style="width: 100%">
-											<p contenteditable="true" v-edit='questions[now_page-1].options[$index]'>{{item}}</p>
+											<p contenteditable="true" v-edit='questions[now_page-1].options[$index]'>{{item.value}}</p>
 										</div>
 									</div>
 									<a class="btn del_btn" v-on:click="del_option($index)">x</a>
@@ -163,7 +163,7 @@
 				login_user:{},
 				now_survey:{},
 				showModal:false,
-				survey_link:'http://localhost:8080/#!/fill/',
+				survey_link:'http://localhost:3000/#!/fill/',
 				questions:[], 
 				now_page:0,
 				page_index:1,
@@ -233,7 +233,7 @@
 				}
 			},
 			append_option(){
-				this.questions[this.now_page-1].options.push("");
+				this.questions[this.now_page-1].options.push({value:'',checked:false});
 			},
 			del_option(i){
 				this.questions[this.now_page-1].options.splice(i,1);

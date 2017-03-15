@@ -6,7 +6,7 @@
 							<div class="inner">
 								<div class="title_content">
 									<p>
-										{{title}}
+										{{now_survey.survey_name}}
 									</p>
 								</div> 
 							</div>
@@ -15,7 +15,7 @@
 							<div class="inner">
 								<div class="intro_content">
 									<p>
-										{{intro}}
+										{{now_survey.intro}}
 									</p>
 								</div>
 							</div>
@@ -26,7 +26,7 @@
 								<img src="../img/end.png">
 								<p>&nbsp;</p>
 								<p>
-									{{end}}
+									{{now_survey.end}}
 								</p>
 							</div>
 						</div>
@@ -107,18 +107,20 @@
     	},
 		data(){
 			return{
-				now_survey:{
-					_id:'12312313',
-					status:1
-				},
+				now_survey:{},
 				questions:[],
 				answers:[],
 				now_page:0,
+				target:{}
 			}
 		},  
 		methods:{
 			start(){
-				this.now_page = 1;
+				if(this.questions.length==0){
+					this.now_page = -1;
+				}else{
+					this.now_page = 1;
+				}
 			},
 			page_preview(){
 				this.now_page--;
@@ -150,6 +152,9 @@
 			},
 			submit(type,required){
 				if(this.verify(type,required)){
+					for(var i = 0;i<questions.length;i++){
+
+					}
 					this.now_page = -1;
 				}else{
 					alert('此题必填')
@@ -158,6 +163,42 @@
 			}
 		},
 		route:{
+			activate(transition){
+				var current_survey = this.$route.params.survey_id;
+				var vm = this;
+				var _ip = 
+				this.$http.get('/get_survey',{
+					params:{
+						survey_id:current_survey,
+						get_target : true
+					}
+				}).then(function(res){
+					vm.now_survey = res.data.data[0];
+					console.log(res.data.data);
+					if(res.data.data[1].target){
+						vm.target = res.data.data[1].target;
+					}else{
+						console.log('出错了！');
+						return false;
+					}
+					if(!vm.now_survey.question==0){
+						//获取问题
+						var belong_survey = vm.now_survey._id
+						vm.$http.get('/get_questions',{
+							params:{belong_survey:belong_survey}
+						}).then(function(res){
+							console.log(res.data);
+							vm.questions = res.data.data[0].questions;
+						},function(err){
+							console.log('出错了')
+						})
+					}
+				},function(err){
+					console.log('出错了');
+					return;
+				});
+				transition.next();
+			}
 		}
 	}
 </script>
