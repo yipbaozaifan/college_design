@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 var User = models.User;
 var Survey = models.Survey;
 var Question = models.Question;
+var Target = models.Target;
+var Answer = models.Answer;
 
 var fnc = {
 	login:function(req,res){
@@ -161,6 +163,7 @@ var fnc = {
 					'message':'error',
 					'data':[]
 				}
+				res.send(result);
 			}else{
 				result = {
 					'state':1,
@@ -176,8 +179,37 @@ var fnc = {
 						}					
 					]
 				}
+				if(req.query.get_target){
+					var ip = req.headers['x-forwarded-for'] ||
+					req.ip ||req.connection.remoteAddress ||
+					req.socket.remoteAddress ||
+					req.connection.socket.remoteAddress || '';
+				    if(ip.split(',').length>0){
+				        ip = ip.split(',')[0]
+				    }
+				    var date = new Date();
+				    var target = {
+						ip:ip,
+						date : date
+					};
+					var result;
+					var new_target = new Target(target);
+					new_target.save(function(err){
+						if(err){
+							result.data.push({
+								target:null
+							})
+						}else{
+							result.data.push({
+								target:new_target
+							})
+						}
+						res.send(result);
+					})
+				}else{
+					res.send(result);
+				}
 			}
-			res.send(result);
 		})
 	},
 	add_question:function(question){
@@ -280,6 +312,32 @@ var fnc = {
 				}
 			}
 			res.send(result);
+		})
+	},
+	submit:function(req,res){
+		var answer
+	},
+	//get ip
+	_get_client_ip:function(req){
+		
+	    return ip;
+	},
+	_fill_survey:function(req){
+		var ip = require('./common.js')._get_client_ip(req);
+		var date = new Date();
+		var target = {
+			ip:ip,
+			date : date
+		};
+		var result;
+		var new_target = new Target(target);
+		new_target.save(function(err){
+			if(err){
+				return null;
+			}else{
+				console.log(new_target)
+				return new_target;
+			}
 		})
 	}
 }
