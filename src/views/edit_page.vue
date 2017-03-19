@@ -102,7 +102,7 @@
 								<li class="option_item" v-for="item in questions[now_page-1].options" track-by="$index">
 									<div class="option_input_warp">
 										<div class="mod_editor" style="width: 100%">
-											<p contenteditable="true" v-edit='questions[now_page-1].options[$index]'>{{item.value}}</p>
+											<p contenteditable="true" v-edit='questions[now_page-1].options[$index].value'>{{item.value}}</p>
 										</div>
 									</div>
 									<a class="btn del_btn" v-on:click="del_option($index)">x</a>
@@ -175,9 +175,17 @@
 				//检测数组重复，存在重复返回true，不存在返回false
 				var hash= {};
 				for(var i = 0 ; i<arr.length;i++){
-					if(!hash[arr[i]]){
-						hash[arr[i]] = true;
+					if(!hash[arr[i].value]){
+						hash[arr[i].value] = true;
 					}else{
+						return true;
+					}
+				}
+				return false;
+			},
+			_isNull(arr){
+				for(var i = 0;i<arr.length;i++){
+					if(arr[i].value==""){
 						return true;
 					}
 				}
@@ -245,9 +253,11 @@
 			publish(){
 				this.survey_link = this.survey_link+this.now_survey._id;
 				this.now_survey.status=0;
+				this._sava();
 			},
 			pause(){
 				this.now_survey.status=1;
+				this._sava();
 			},
 			share(){
 				this.showModal = true;
@@ -268,7 +278,7 @@
 							if(this.questions[i].options.length==0){//检测有无选项
 								alert("第"+(i+1)+"题未添加选项");
 								return false;
-							}else if(this.questions[i].options.indexOf("")>-1){//检测存在空选项
+							}else if(this._isNull(this.questions[i].options)){//检测存在空选项
 								alert("第"+(i+1)+"题选项为空");
 								return false;
 							}else if(this._isRepeat(this.questions[i].options)){//检测重复选项

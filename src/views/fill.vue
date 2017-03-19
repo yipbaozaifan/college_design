@@ -46,7 +46,7 @@
 										<span style="color: #53aaf3;margin-left: 3px;" v-show='questions[now_page-1].type=="checkbox"'>
 											[多选题]
 										</span>
-										<span style="color: red;">
+										<span style="color: red;" v-if = 'questions[now_page-1].type.required'>
 											*
 										</span>
 									</p>
@@ -85,7 +85,7 @@
 						<div class="inner">
 							<a class="survey_btn" v-show='now_page>1' v-on:click="page_preview()">上一题</a>
 							<a class="survey_btn next_btn" v-show='now_page>=1&&now_page<questions.length' v-on:click="page_next(questions[now_page-1].type,questions[now_page-1].required)">下一题</a>
-							<a class="survey_btn next_btn" v-show='now_page==questions.length' v-on:click="submit()">提交</a>
+							<a class="survey_btn next_btn" v-show='now_page==questions.length' v-on:click="submit(questions[now_page-1].type,questions[now_page-1].required)">提交</a>
 							<a class="survey_btn" v-show='now_page==0' v-on:click="start()">开始</a>
 						</div>
 					</div>
@@ -151,11 +151,39 @@
 				}
 			},
 			submit(type,required){
+				var _target = this.target;
+				var _survey_id = this.now_survey._id;
 				if(this.verify(type,required)){
-					for(var i = 0;i<questions.length;i++){
-
+					for(var i = 0;i<this.questions.length;i++){
+						var _value = [];
+						var _question = this.questions[i]._id;
+						var answer= {
+							target:_target,
+							survey:_survey_id,
+							question:_question
+						}
+						if(this.questions[i].type=='checkbox'){
+							for(var j=0;j<this.questions[i].options.length;j++){
+								if(this.questions[i].options[j].checked){
+									_value.push(this.questions[i].options[j].value);
+								}
+							}
+						}else{
+							_value.push(this.questions[i].value);
+						}
+						answer.value = _value;
+						this.answers.push(answer);
 					}
-					this.now_page = -1;
+					var data = {
+						target : this.target,
+						answers : this.answers
+					}
+					this.$http.post('/submit',data).then(function(data){
+						console.log(data.data);
+						this.now_page = -1;
+					},function(err){
+						console.log('error');
+					})
 				}else{
 					alert('此题必填')
 				}
@@ -166,7 +194,6 @@
 			activate(transition){
 				var current_survey = this.$route.params.survey_id;
 				var vm = this;
-				var _ip = 
 				this.$http.get('/get_survey',{
 					params:{
 						survey_id:current_survey,
