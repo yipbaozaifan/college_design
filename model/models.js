@@ -34,7 +34,7 @@ var questions = new mongoose.Schema({
 var answers = new mongoose.Schema({
 	target:String,
 	survey:String,
-	questions:String,
+	question:String,
 	values:[]
 })
 //填写问卷的目标
