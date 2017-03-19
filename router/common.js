@@ -155,7 +155,6 @@ var fnc = {
 	get_survey:function(req,res){
 		var survey_id = req.query.survey_id;
 		var result;
-		console.log(survey_id);
 		Survey.findById(survey_id,function(err,survey){
 			if(err){
 				result = {
@@ -209,16 +208,6 @@ var fnc = {
 				}else{
 					res.send(result);
 				}
-			}
-		})
-	},
-	add_question:function(question){
-		var new_question = new Question(question);
-		new_question.save(function(err){
-			if(err){
-				return false;
-			}else{
-				return true;			
 			}
 		})
 	},
@@ -315,30 +304,24 @@ var fnc = {
 		})
 	},
 	submit:function(req,res){
-		var answer
-	},
-	//get ip
-	_get_client_ip:function(req){
-		
-	    return ip;
-	},
-	_fill_survey:function(req){
-		var ip = require('./common.js')._get_client_ip(req);
-		var date = new Date();
-		var target = {
-			ip:ip,
-			date : date
-		};
+		var answers = req.body.answers;
 		var result;
-		var new_target = new Target(target);
-		new_target.save(function(err){
-			if(err){
-				return null;
-			}else{
-				console.log(new_target)
-				return new_target;
-			}
-		})
+		Answer.collection.insert(answers,function(err,docs){
+							if(err){
+								result = {
+									'state':3,
+									'message':'error',
+									'data':[]
+								}
+							}else{
+								result = {
+									'state':1,
+									'message':'success',
+									'data':[]
+								}
+							}
+							res.send(result);
+						})
 	}
 }
 module.exports = fnc;
