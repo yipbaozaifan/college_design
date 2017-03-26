@@ -36,6 +36,7 @@
   "dependencies": {
     "ansi-regex": "^2.0.0",
     "body-parser": "^1.15.2",
+    "chart.js": "^2.5.0",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.2",
     "es6-promise": "^3.0.2",
