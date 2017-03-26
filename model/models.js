@@ -40,7 +40,9 @@ var answers = new mongoose.Schema({
 //填写问卷的目标
 var target = new mongoose.Schema({
 	ip:String,
-	date:Date
+	survey:String,
+	start_time:Date,
+	end_time:Date
 })
 
 db.on('error', function(error) {
