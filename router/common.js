@@ -189,22 +189,15 @@ var fnc = {
 				    var date = new Date();
 				    var target = {
 						ip:ip,
-						date : date
+						survey_id:'',
+						start_time : date,
+						end_time : date
 					};
 					var result;
 					var new_target = new Target(target);
-					new_target.save(function(err){
-						if(err){
-							result.data.push({
-								target:null
-							})
-						}else{
-							result.data.push({
-								target:new_target
-							})
-						}
-						res.send(result);
-					})
+					console.log(new_target);
+					result.data.push({target:new_target});
+					res.send(result);
 				}else{
 					res.send(result);
 				}
@@ -305,23 +298,50 @@ var fnc = {
 	},
 	submit:function(req,res){
 		var answers = req.body.answers;
+		var target = new Target(req.body.target);
 		var result;
+		console.log(target);
+		/*var submit_promise = new Promise(function(resolve,reject){
+			target.save(function(){
+				if(err){
+					result = {
+						'state':3,
+						'message':'error',
+						'data':[]
+					}
+					reject(result);
+				}else{
+					resolve(result);
+				}
+			})
+		})
 		Answer.collection.insert(answers,function(err,docs){
-							if(err){
-								result = {
-									'state':3,
-									'message':'error',
-									'data':[]
-								}
-							}else{
-								result = {
-									'state':1,
-									'message':'success',
-									'data':[]
-								}
-							}
-							res.send(result);
-						})
+			if(err){
+				result = {
+					'state':3,
+					'message':'error',
+					'data':[]
+				}
+				res.send(result);
+			}else{
+				Target.update({_id:target._id},{$set:target},function(err){
+					if(err){
+						result = {
+							'state':3,
+							'message':'error',
+							'data':[]
+						}
+					}else{
+						result = {
+							'state':1,
+							'message':'success',
+							'data':[]
+						}
+					}
+					res.send(result);
+				})				
+			}
+		})*/
 	}
 }
 module.exports = fnc;
