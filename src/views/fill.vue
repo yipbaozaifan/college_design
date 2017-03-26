@@ -174,6 +174,9 @@
 						answer.value = _value;
 						this.answers.push(answer);
 					}
+					//记录完成时间
+					this.target.end_time = new Date();
+					this.target.survey = this.now_survey._id;
 					var data = {
 						target : this.target,
 						answers : this.answers

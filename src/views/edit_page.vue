@@ -19,7 +19,7 @@
 			<div class="sub_nav">
 				<a href="" class="sub_nav_item current">编辑问卷</a>
 				<a class="sub_nav_item">选择背景</a>
-				<a class="sub_nav_item" v-if='now_survey.status==-1' v-on:click="go_analyze()">统计分析</a>
+				<a class="sub_nav_item" v-if='now_survey.status==0' v-on:click="go_analyze()">统计分析</a>
 			</div>
 			<div class="published">
 				<a class="sub_nav_item" v-show = 'now_survey.status==0' v-on:click='share()'>分享</a>
