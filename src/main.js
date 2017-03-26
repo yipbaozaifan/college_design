@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import App from './components/App.vue'
-import home from './views/home.vue'
 import routerConfig from './router.js'
-import $ from 'jquery'
 import VueResource from 'vue-resource'
 
 // install router
