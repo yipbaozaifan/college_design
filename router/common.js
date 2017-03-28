@@ -189,13 +189,13 @@ var fnc = {
 				    var date = new Date();
 				    var target = {
 						ip:ip,
-						survey_id:'',
+						survey:result.data[0]._id,
 						start_time : date,
 						end_time : date
 					};
+					console.log(target);
 					var result;
 					var new_target = new Target(target);
-					console.log(new_target);
 					result.data.push({target:new_target});
 					res.send(result);
 				}else{
@@ -300,48 +300,70 @@ var fnc = {
 		var answers = req.body.answers;
 		var target = new Target(req.body.target);
 		var result;
-		console.log(target);
-		/*var submit_promise = new Promise(function(resolve,reject){
-			target.save(function(){
+		var submit_promise = new Promise(function(resolve,reject){
+			Target.find({survey:target.survey,ip:target.ip},function(err,data){
 				if(err){
 					result = {
-						'state':3,
-						'message':'error',
-						'data':[]
-					}
-					reject(result);
+						state:3,
+						message:'error',
+						data:[]
+				    }
+					reject(err);
 				}else{
-					resolve(result);
+					resolve(data);
 				}
 			})
 		})
-		Answer.collection.insert(answers,function(err,docs){
-			if(err){
+		submit_promise.then(function(data){
+			if(data.length==0){
 				result = {
-					'state':3,
-					'message':'error',
-					'data':[]
+					state:2,
+					message:'is exist',
+					data:[]
 				}
-				res.send(result);
+				return Promise.reject('is exist');
 			}else{
-				Target.update({_id:target._id},{$set:target},function(err){
+				return new Promise(function(resolve,reject){
+					target.save(function(err){
+						if(err){
+							result = {
+								state:3,
+								message:'error',
+								data:[]
+							}
+							reject(err);
+						}else{
+							resolve()；
+						}
+					})
+				})
+			}
+			
+		}).then(function(){
+			return new Promise(function(resolve,reject){
+				Answer.collection.insert(answers,function(err,docs){
 					if(err){
 						result = {
-							'state':3,
-							'message':'error',
-							'data':[]
+							state:3,
+							message:'error',
+							data:[]
 						}
+						reject(err);
 					}else{
-						result = {
-							'state':1,
-							'message':'success',
-							'data':[]
-						}
+						resolve()
 					}
-					res.send(result);
-				})				
+				})
+			})
+		}).catch(function(err){
+			res.send(result);
+		}).finally(function(){
+			result = {
+				state:1,
+				message:'success',
+				data:[]
 			}
-		})*/
+			res.send(result);
+		})
 	}
 }
 module.exports = fnc;
