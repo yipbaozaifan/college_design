@@ -163,11 +163,12 @@
 				login_user:{},
 				now_survey:{},
 				showModal:false,
-				survey_link:'http://localhost:3000/#!/fill/',
+				base_link:'http://localhost:3000/#!/fill/',
 				questions:[], 
 				now_page:0,
 				page_index:1,
 				timer:null,
+				survey_link:''
 			}
 		},  
 		methods:{
@@ -250,16 +251,8 @@
 				var _id = this.now_survey._id;
 				this.$router.go({name:'analyze',params:{survey_id:_id}})
 			},
-			publish(){
-				this.survey_link = this.survey_link+this.now_survey._id;
-				this.now_survey.status=0;
-				this._sava();
-			},
-			pause(){
-				this.now_survey.status=1;
-				this._sava();
-			},
 			share(){
+				this.survey_link = this.base_link+this.now_survey._id;
 				this.showModal = true;
 			},
 			_save(){
@@ -293,9 +286,19 @@
 				 }
 				 this.$http.post('/save_survey',data).then(function(res){
 				 	console.log(res.data);
+				 	this.questions = res.data.data[0].questions;
 				 },function(err){
 				 	console.log('fail');
 				 })
+			},
+			publish(){
+				this.survey_link = this.base_link+this.now_survey._id;
+				this.now_survey.status=0;
+				this._save();
+			},
+			pause(){
+				this.now_survey.status=1;
+				this._save();
 			},
 			open_link(url){
 				window.open(url);
@@ -310,9 +313,6 @@
 					params:{survey_id:current_survey}
 				}).then(function(res){
 					vm.now_survey = res.data.data[0];
-					vm.title = res.data.data[0].survey_name;
-					vm.intro = res.data.data[0].intro;
-					vm.end = res.data.data[0].end;
 					console.log(typeof vm.now_survey._id);
 					if(!vm.now_survey.question==0){
 						//获取问题

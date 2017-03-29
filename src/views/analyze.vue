@@ -177,10 +177,6 @@
 		data(){
 			return{
 				login_user:{
-					user:{
-						user_id : '213213'
-					},
-					survey_num:0
 				},
 				now_survey:{
 					_id:'1232313',
@@ -188,16 +184,6 @@
 				},
 				survey_link:'http://localhost:8080/#!/fill/',
 				questions:[
-					{title:'dsfkljfkldsfjsk',desc:'sdfdsfds',type:'checkbox',
-					options:['sldjfdskl','fsldjfdskl','sldjfdskl']
-					},
-					{title:'dfsfdsfs ',desc:'dsfdfsd ',type:'radio',
-					options:['sldjfdskl','fsldjfdskl','sldjfdskl']
-					},
-					{title:'dfsfdsfs ',desc:'dsfdfsd ',type:'radio',
-					options:['sldjfdskl','fsldjfdskl','sldjfdskl']
-					},
-					{title:'dfdsfdsfds',desc:'dfsdfdff',type:'text',options:[]},
 				], 
 				now_tab:0,
 				now_page:0,
@@ -217,6 +203,19 @@
 			}
 		},
 		route:{
+			activate(){
+				var current_survey = this.$route.params.survey_id;
+				var vm = this;
+				this.$http.get('/analyze_catch',{
+					params:{
+						survey_id : current_survey
+					}
+				}).then(function(res){
+					console.log(res.data);
+				},function(err){
+					console.log('error');
+				})
+			}
 		}
 	}
 </script>

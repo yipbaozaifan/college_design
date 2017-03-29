@@ -181,9 +181,13 @@
 						target : this.target,
 						answers : this.answers
 					}
-					this.$http.post('/submit',data).then(function(data){
-						console.log(data.data);
-						this.now_page = -1;
+					this.$http.post('/submit',data).then(function(res){
+						if(res.data.state==1){
+							this.now_page = -1;
+						}else if(res.data.state==2){
+							this.now_page = 0
+							alert('不能重复作答！')
+						}
 					},function(err){
 						console.log('error');
 					})
