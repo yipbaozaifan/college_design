@@ -210,43 +210,61 @@ var fnc = {
 		var result ;
 		//保存问卷信息
 		console.log(survey._id);
-		Survey.update({_id:survey._id},{$set:survey},function(err){
-			if (err) {
-				result = {
-					'state':3,
-					'message':'error',
-					'data':[]
+		var save_promise = new Promise(function(resolve,reject){
+			Survey.update({_id:survey._id},{$set:survey},function(err){
+				if(err){
+					reject(err);
+				}else{
+					resolve();
 				}
-				res.send(result);
-			}else{
-				Question.remove({survey:survey._id+''},function(err,writeOpResult){
+			})
+		})
+		save_promise.then(function(){
+			return new Promise(function(resolve,reject){
+				Question.remove({survey:survey._id+''},function(err,data){
 					if(err){
-						result = {
-							'state':3,
-							'message':'error',
-							'data':[]
-						}
-						res.send(result)
+						reject(err);
 					}else{
-						Question.collection.insert(questions,function(err,docs){
-							if(err){
-								result = {
-									'state':3,
-									'message':'error',
-									'data':[]
-								}
-							}else{
-								result = {
-									'state':1,
-									'message':'success',
-									'data':[]
-								}
-							}
-							res.send(result);
-						})
+						resolve();
 					}
 				})
+			})
+		}).then(function(){
+			return new Promise(function(resolve,reject){
+				Question.collection.insert(questions,function(err,docs){
+					if(err){
+						reject(err);
+					}else{
+						resolve();
+					}
+				})
+			})
+		}).then(function(){
+			return new Promise(function(resolve,reject){
+				Question.find({survey:survey._id}).sort({index:1}).exec(function(err,questions){
+					if(err){
+						reject(err);
+					}else{
+						resolve(questions)
+					}
+				})
+			})
+		}).then(function(data){
+			result = {
+				state:1,
+				message:"success",
+				data:[{
+					questions:data
+				}]
 			}
+			res.send(result);
+		}).catch(function(err){
+			result = {
+				state : 3,
+				message : 'error',
+				data : []
+			}
+			res.send(result);
 		})
 	},
 	get_questions:function(req,res){
@@ -303,11 +321,6 @@ var fnc = {
 		var submit_promise = new Promise(function(resolve,reject){
 			Target.find({survey:target.survey,ip:target.ip},function(err,data){
 				if(err){
-					result = {
-						state:3,
-						message:'error',
-						data:[]
-				    }
 					reject(err);
 				}else{
 					resolve(data);
@@ -315,25 +328,15 @@ var fnc = {
 			})
 		})
 		submit_promise.then(function(data){
-			if(data.length==0){
-				result = {
-					state:2,
-					message:'is exist',
-					data:[]
-				}
+			if(data.length!=0){
 				return Promise.reject('is exist');
 			}else{
 				return new Promise(function(resolve,reject){
 					target.save(function(err){
 						if(err){
-							result = {
-								state:3,
-								message:'error',
-								data:[]
-							}
 							reject(err);
 						}else{
-							resolve()；
+							resolve();
 						}
 					})
 				})
@@ -343,23 +346,111 @@ var fnc = {
 			return new Promise(function(resolve,reject){
 				Answer.collection.insert(answers,function(err,docs){
 					if(err){
-						result = {
-							state:3,
-							message:'error',
-							data:[]
-						}
 						reject(err);
 					}else{
 						resolve()
 					}
 				})
 			})
-		}).catch(function(err){
-			res.send(result);
-		}).finally(function(){
+		}).then(function(){
 			result = {
 				state:1,
 				message:'success',
+				data:[]
+			}
+			res.send(result);
+		}).catch(function(err){
+			if(err == 'is exist'){
+				result = {
+					state :2,
+					message : err,
+					data : []
+				}
+			}else{
+				result = {
+					state : 3,
+					message : 'error',
+					data : []
+				}
+			}
+			res.send();
+		})
+	},
+	analyze_catch:function(req,res){
+		var survey_id = req.query.survey_id;
+		var result = {},_survey,_questions,_targets,_answers;
+		var analyze_prmise = new Promise(function(resolve,reject){
+			Survey.findById(survey_id,function(err,survey){
+				if(err){
+					reject(err);
+				}else{
+					if(survey){
+						_survey = survey;
+						resolve();
+					}else{
+						reject('not found');
+					}
+				}
+			})
+		})
+		analyze_prmise.then(function(){
+			return new Promise(function(resolve,reject){
+				Question.find({survey:survey_id},function(err,questions){
+					if(err){
+ 						reject(err);
+					}else{
+						_questions = questions;
+						resolve();
+					}
+				})
+			})
+		}).then(function(){
+			return new Promise(function(resolve,reject){
+				Target.find({survey:survey_id},function(err,targets){
+					if(err){
+						reject()
+					}else{
+						_targets = targets;
+						resolve()
+					}
+				})
+			})
+		}).then(function(){
+			return new Promise(function(resolve,reject){
+				Answer.find({survey:survey_id},function(err,answers){
+					if(err){
+						reject(err)
+					}else{
+						_questions = questions;
+						resolve()
+					}
+				})
+			})
+		}).then(function(){
+			for(var i = 0;i<_targets.length;i++){
+				_targets[i].answers = [];
+				for(var j = 0;j<_answers.length;j++){
+					if(_answers[j].target == _targets[i]._id){
+						_targets[i].answers.push(_answers[j])
+					}
+				}
+			}
+			result = {
+				state : 1,
+				message : 'success',
+				data:[
+					{
+						survey:_survey,
+						questions:_questions,
+						target:_targets
+					}
+				]
+			}
+			res.send(result);
+		}).catch(function(err){
+			result={
+				state : 3,
+				message : 'error',
 				data:[]
 			}
 			res.send(result);
