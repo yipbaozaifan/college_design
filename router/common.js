@@ -373,7 +373,7 @@ var fnc = {
 					data : []
 				}
 			}
-			res.send();
+			res.send(result);
 		})
 	},
 	analyze_catch:function(req,res){
@@ -421,20 +421,12 @@ var fnc = {
 					if(err){
 						reject(err)
 					}else{
-						_questions = questions;
+						_answers = answers;
 						resolve()
 					}
 				})
 			})
 		}).then(function(){
-			for(var i = 0;i<_targets.length;i++){
-				_targets[i].answers = [];
-				for(var j = 0;j<_answers.length;j++){
-					if(_answers[j].target == _targets[i]._id){
-						_targets[i].answers.push(_answers[j])
-					}
-				}
-			}
 			result = {
 				state : 1,
 				message : 'success',
@@ -442,7 +434,8 @@ var fnc = {
 					{
 						survey:_survey,
 						questions:_questions,
-						target:_targets
+						target:_targets,
+						answers:_answers
 					}
 				]
 			}
