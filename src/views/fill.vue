@@ -171,7 +171,7 @@
 						}else{
 							_value.push(this.questions[i].value);
 						}
-						answer.value = _value;
+						answer.values = _value;
 						this.answers.push(answer);
 					}
 					//记录完成时间

@@ -43,7 +43,7 @@
 									<div class="overview_module_inner">
 										<h4 class="module_title">问卷填写量</h4>
 										<p class="module_data">
-											<span class="module_data_number">2</span>
+											<span class="module_data_number">{{target.length}}</span>
 										</p>
 										<p class="adding_word">问卷实时回收量</p>
 									</div>
@@ -75,8 +75,8 @@
 					<div id="analyze_recycle" v-if="now_tab==0">
 						<div class="recycle_filter">
 							<div class="legend">
-								<span class="title">问卷标题</span>
-								<span class="id">ID:12312313</span>
+								<span class="title">{{now_survey.survey_name}}</span>
+								<span class="id">ID:{{now_survey._id}}</span>
 							</div>
 							<div class="info">
 								<a class="info_icon" id="refresh_data">
@@ -107,14 +107,18 @@
 										</tr>
 									</thead>
 									<tbody id="list">
-										<tr>
+										<tr v-for = 'item in target'>
 											<td class="input_td">
 												<input class="survey_form_checkbox" type="checkbox" name="delete_checkbox">
 											</td>
-											<td>1</td>
-											<td>17-02-08 11:15:12</td>
-											<td>17-02-08 11:15:12</td>
-											<td></td>
+											<td>{{$index+1}}</td>
+											<td>{{item.start_time}}</td>
+											<td>{{item.end_time}}</td>
+											<template v-for = 'answer in answers'>
+												<td v-if = 'answer.target==item._id'>
+													{{answer.values}}
+												</td>
+											</template>
 										</tr>
 									</tbody>
 								</table>
@@ -129,7 +133,7 @@
 			<div class="analyze_sidebar">
 				<ul>
 					<li class="sidebar_item current">
-						<a class="iconLink overview_ico">
+						<a class="iconLink overview_ico" v-on:click = 'change_tab(1)'>
 							<div class="icon">
 								<i class="needle"></i>
 							</div>
@@ -137,7 +141,7 @@
 						</a>
 					</li>
 					<li class="sidebar_item">
-						<a class="iconLink recycle_ico">
+						<a class="iconLink recycle_ico" v-on:click = 'change_tab(0)'>
 							<div class="icon">
 								<i class="recycle_inner_line recycle_inner_line_1"></i>
 								<i class="recycle_inner_line recycle_inner_line_2"></i>
@@ -147,7 +151,7 @@
 						</a>
 					</li>
 					<li class="sidebar_item">
-						<a class="iconLink chart_ico">
+						<a class="iconLink chart_ico" v-on:click = 'change_tab(2)'>
 							<div class="icon">
 								<i class="left_fan recycle_fan"></i>
 								<i class="right_fan recycle_fan"></i>
@@ -176,23 +180,18 @@
     	},
 		data(){
 			return{
-				login_user:{
-				},
-				now_survey:{
-					_id:'1232313',
-					status:1
-				},
-				survey_link:'http://localhost:8080/#!/fill/',
+				login_user:{},
+				now_survey:{},
+				base_link:'http://localhost:8080/#!/fill/',
+				survey_link:'',
 				questions:[
 				], 
 				now_tab:0,
 				now_page:0,
 				page_index:1,
 				timer:null,
-				append_opt_count:0,
-				title:"问卷标题",
-				intro:'为了给您提供更好的服务，希望您能抽出几分钟时间，将您的感受和建议告诉我们，我们非常重视每位用户的宝贵意见，期待您的参与！现在我们就马上开始吧！',
-				end:"问卷到此结束，感谢您的参与！"
+				target:[],
+				answers:[]
 			}
 		},  
 		methods:{
@@ -200,6 +199,9 @@
 				var user_id = this.login_user.user.user_id;
 				var survey_id = this.now_survey._id;
 				this.$router.go({name:'edit',params:{user_id:user_id,survey_id:survey_id}});
+			},
+			change_tab(i){
+				this.now_tab = i;
 			}
 		},
 		route:{
@@ -211,7 +213,11 @@
 						survey_id : current_survey
 					}
 				}).then(function(res){
-					console.log(res.data);
+					var data = res.data.data[0];
+					this.now_survey = data.survey;
+					this.questions = data.questions;
+					this.target = data.target;
+					this.answers = data.answers;
 				},function(err){
 					console.log('error');
 				})
