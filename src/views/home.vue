@@ -1,9 +1,6 @@
 <template>
 	<navbar placement="top" type="default">
-  		<!-- Brand as slot -->
   	  <a slot="brand" href="/" title="Home" class="navbar-brand">VueStrap</a>
-  		<!-- You can use dropdown component -->
-  		<!-- For right positioning use slot -->
 	</navbar>
 	<div id="homePage">
 		<div class="mask"></div>

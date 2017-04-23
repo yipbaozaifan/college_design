@@ -1,9 +1,6 @@
 <template>
 	<navbar placement="top" type="default">
-  		<!-- Brand as slot -->
   	  <a slot="brand" href="/" title="Home" class="navbar-brand">VueStrap</a>
-  		<!-- You can use dropdown component -->
-  		<!-- For right positioning use slot -->
   	  <li>
   	  	<a v-link="{name:'create',params:{user_id:login_user.user_id}}" class="nav_btn">创建问卷</a>
   	  </li>
@@ -113,10 +110,7 @@
 			return{
 				flag:true,  
 				search_flag:true,
-				login_user:{
-					id:"201330330223",
-					name:'野仔湛'
-				},
+				login_user:{},
 				template_list:[
 					{template_name:"模板1",template_id:'1112332',template_head:'./src/img/talent.png'},
 					{template_name:'模板2',template_id:'1232312',template_head:'./src/img/talent.png'},
@@ -134,9 +128,6 @@
 			}
 		},  
 		methods:{
-			getItemList(tab,timeStamp,role){
-				
-			},
 			useTemplate(template_id,user_id){
 				this.$router.go({name:'edit',params:{user_id:user_id,survey_id:template_id}})
 			}

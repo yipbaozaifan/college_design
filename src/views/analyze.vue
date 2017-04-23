@@ -125,8 +125,7 @@
 							</div>
 						</div>
 					</div>
-					<div id="analyze_chart" v-if="now_tab==2">
-						
+					<div id="analyze_chart" v-if="now_tab==2"> 	
 					</div>
 				</div>
 			</div>
