@@ -12,13 +12,13 @@ var port=process.env.PORT||3000;
 
 var app = express();
 
-app.set('views', path.join(__dirname, 'src'));
+app.set('views', path.join(__dirname, 'src'));//指明前端界面所存放的路径
 app.engine('html', ejs.__express);//使ejs模板引擎使用html文件，使node能解析html文件并投影到浏览器
 app.set('view engine', 'html');//设置render engine（模板引擎）
 
 app.use('/static',express.static('static'));//处理静态文件的中间件,指明保存静态文件的路径
 
-app.use(bodyParser.json());//解析请求体（body）中的json，并把请求体内容保存在req.body中，页面中输入并发送的信息都会保留到body中
+app.use(bodyParser.json());//解析请求体（body）中的json，并把请求体内容保存在req.body中
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieParser());//解析cookie的中间件
