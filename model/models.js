@@ -16,7 +16,6 @@ var survey = new mongoose.Schema({
 	intro:String,
 	end:String,
 	status:Number,
-	question:Number
 })
 //问卷中每条问题的数据库（选项型问题）
 var questions = new mongoose.Schema({
