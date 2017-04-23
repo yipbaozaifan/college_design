@@ -126,7 +126,68 @@
 						</div>
 					</div>
 					<div id="analyze_chart" v-if="now_tab==2">
-						
+						<div class="chart_filter">
+							<div class="legend">
+								<span class="title">{{now_survey.survey_name}}</span>
+								<span class="id">ID:{{now_survey._id}}</span>
+							</div>
+						</div>
+						<div id="chart">
+							<div class="survey_pages_tab">
+								<a class="pages_preview" v-on:click="_preview($event)">
+									<i> < </i>
+								</a>
+								<div class="pages_warp">
+									<ul id="pages_list">
+										<li v-for = "i in questions" class="pages_item" v-bind:class="{'current':now_page==($index+1)}" v-on:click = "changePage($index+1)">
+											<span>第{{$index+1}}题</span>
+										</li>
+									</ul>
+								</div>
+								<a class="pages_next" v-on:click="_next($event)">
+									<i> > </i>
+								</a>
+							</div>
+							<div class="question_panel">
+								<div class="question_title">问题标题</div>
+								<div class="graph_warp">
+									
+								</div>
+								<div class="graph_types">
+									<span  class="graph_type">
+										<i class="ico ico_answers"></i>回答概况
+									</span>
+									<span  class="graph_type">
+										<i class="ico ico_pie"></i>饼状图
+									</span>
+									<span  class="graph_type">
+										<i class="ico ico_column"></i>柱状图
+									</span>
+								</div>
+								<div class="answers_warp">
+									<div id = "table_warp">
+										<div class="data_table_warpper">
+											<table class="data_table">
+												<thead>
+													<tr role="row">
+														<th class="table_title">选项</th>
+														<th class="table_value">小计</th>
+														<th class="table_value">百分比</th>	
+													</tr>
+												</thead>
+												<tbody>
+													<tr class="">
+														<td class="table_title">是</td>
+														<td class="table_value">0</td>
+														<td class="table_value">0</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -202,7 +263,29 @@
 			},
 			change_tab(i){
 				this.now_tab = i;
-			}
+			},
+			_preview(e){
+				var pages_bar = document.querySelector('#pages_list');
+				var current_position = (this.page_index-1)*96;
+				if(current_position-96<0){
+					pages_bar.style.left = 0;
+				}else{
+					this.page_index -= 2;
+					pages_bar.style.left = '-'+this.page_index*96+'px';
+				}
+			},
+			_next(e){
+				var pages_bar = document.querySelector('#pages_list');
+				var pages_warp_width= document.querySelector('.pages_warp').offsetWidth;
+				var offset_width = pages_bar.offsetWidth;
+				var current_position = this.page_index*96;
+				if(offset_width-current_position<pages_warp_width){
+					pages_bar.style.left = '-' + (offset_width-pages_warp_width) + 'px'
+				}else{
+					pages_bar.style.left = "-"+this.page_index*96 + 'px';
+					this.page_index++;
+				}
+			},
 		},
 		route:{
 			activate(){
@@ -218,6 +301,14 @@
 					this.questions = data.questions;
 					this.target = data.target;
 					this.answers = data.answers;
+					this.questions.forEach(function(d,i){
+						d.count = 0;
+					})
+					for(var i = 0;i<this.questions.length;i++){
+						this.questions[i].options.forEach(function(d,i){
+							d.count = 0;
+						})
+					}
 				},function(err){
 					console.log('error');
 				})
@@ -594,6 +685,74 @@
 		overflow: hidden;
 		background-color: #999;
 		z-index: 0;
+	}
+	#analyze_chart{
+		background-color: #fff;
+		border:1px solid #ddd;
+		min-height: 500px;
+		position: relative;
+		width: 94%;
+		margin: 30px auto 0 auto;
+	}
+	#analyze_chart .chart_filter{
+		padding:20px;
+	}
+	#analyze_chart .chart_filter .legend{
+		margin-bottom: 20px;
+	}
+	#analyze_chart .chart_filter .legend .title{
+		font-size: 20px;
+	}
+	#analyze_recycle .chart_filter .legend .id{
+		margin-left: 10px;
+		font-size: 14px;
+		color: #999;
+	}
+	#chart{
+		position: relative;
+		margin-top: 40px;
+		border-top:1px solid #dadada;
+		padding: 20px 20px;
+		font-size: 14px;
+		text-align: left;
+		vertical-align: middle;
+	}
+	#chart .question_panel .question_title{
+		font-size: 14px;
+		margin: 15px 140px 15px 0;
+		word-break: break-all;
+		position: relative;
+	}
+	#chart .question_panel .graph_types{
+		height: 37px;
+		position: relative;
+	}
+	#chart .question_panel .graph_types .graph_type{
+		float: left;
+		font-size: 14px;
+		padding: 7px 20px;
+		margin-left: -1px;
+		background-color: #fff;
+		border: 1px solid #ddd;
+		cursor: pointer;
+
+	}
+	#chart .question_panel .graph_types .graph_type .ico{
+		display: inline-block;
+		margin-right: 5px;
+		vertical-align: middle;
+		background-image: url(../img/sprites_ico.png);
+		width: 18px;
+		height: 18px;
+	}
+	#chart .question_panel .graph_types .graph_type .ico_answers{
+		background-position: -404px -619px
+	}
+	#chart .question_panel .graph_types .graph_type .ico_pie{
+		background-position: -351px -619px
+	}
+	#chart .question_panel .graph_types .graph_type .ico_column{
+		background-position: -135px -644px
 	}
 	/*chart end*/
 </style>
