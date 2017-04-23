@@ -46,7 +46,6 @@ var fnc = {
 		})
 	},
 	signIn:function(req,res){
-		console.log(req.body.username);
 		var username = req.body.username;
 		var password = req.body.password;
 		var nicName = req.body.nicName;
