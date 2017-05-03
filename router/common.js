@@ -167,14 +167,7 @@ var fnc = {
 					'state':1,
 					'message':'get success',
 					'data':[
-						{
-							_id:survey._id,
-							survey_name:survey.survey_name,
-							intro:survey.intro,
-							end:survey.end,
-							question:survey.question,
-							status:survey.status
-						}					
+						survey			
 					]
 				}
 				if(req.query.get_target){
