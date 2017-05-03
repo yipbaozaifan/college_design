@@ -1,6 +1,6 @@
 <template>
 	<navbar placement="top" type="default">
-  	  <a slot="brand" href="/" title="Home" class="navbar-brand">VueStrap</a>
+  	  	<a slot="brand" href="/" title="Home" class="navbar-brand">VueStrap</a>
 	</navbar>
 	<div id="homePage">
 		<div class="mask"></div>

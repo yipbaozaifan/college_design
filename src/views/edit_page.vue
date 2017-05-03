@@ -280,6 +280,8 @@
 							}
 						}
 				 }
+				 this.now_survey.question = this.questions.length;
+				 console.log(this.now_survey);
 				 var data = {
 				 	survey : this.now_survey,
 				 	questions : this.questions  
@@ -313,7 +315,7 @@
 					params:{survey_id:current_survey}
 				}).then(function(res){
 					vm.now_survey = res.data.data[0];
-					console.log(typeof vm.now_survey._id);
+					console.log(vm.now_survey);
 					if(!vm.now_survey.question==0){
 						//获取问题
 						var belong_survey = vm.now_survey._id

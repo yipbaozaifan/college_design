@@ -149,25 +149,30 @@
 								</a>
 							</div>
 							<div class="question_panel">
-								<div class="question_title">问题标题</div>
 								<div class="graph_types">
-									<span  class="graph_type">
+									<span  class="graph_type" v-on:click = "change_graph_type(0)" v-bind:class="{'active':graph_type==0}">
 										<i class="ico ico_answers"></i>回答概况
 									</span>
-									<span  class="graph_type">
+									<span  class="graph_type" v-on:click = "change_graph_type(1)" v-bind:class="{'active':graph_type==1}">
 										<i class="ico ico_pie"></i>饼状图
 									</span>
-									<span  class="graph_type">
+									<span  class="graph_type" v-on:click = "change_graph_type(2)" v-bind:class="{'active':graph_type==2}">
 										<i class="ico ico_column"></i>柱状图
 									</span>
 								</div>
+								<div class="question_title">问题标题</div>
 								<div class="graph_warp">
-									
+									<div id="graph_pie" v-show='graph_type==1'>
+										<svg width="100%" height="100%"></svg>
+									</div>
+									<div id="graph_column" v-show='graph_type==2'>
+										<svg width="100%" height="100%"></svg>
+									</div>
 								</div>
-								<div class="answers_warp">
+								<div class="answers_warp" v-if = 'graph_type==0'>
 									<div id = "table_warp">
 										<div class="data_table_warpper">
-											<table class="data_table">
+											<table class="data_table" v-if='questions[now_page].type == "radio"||questions[now_page].type=="checkbox"'>
 												<thead>
 													<tr role="row">
 														<th class="table_title">选项</th>
@@ -176,10 +181,22 @@
 													</tr>
 												</thead>
 												<tbody>
-													<tr class="">
-														<td class="table_title">是</td>
-														<td class="table_value">0</td>
-														<td class="table_value">0</td>
+													<tr class="" v-for="item in questions[now_page].options">
+														<td class="table_title">{{item.value}}</td>
+														<td class="table_value">{{item.count}}</td>
+														<td class="table_value">{{item.count*1.0/target.length*100}}%</td>
+													</tr>
+												</tbody>
+											</table>
+											<table class="data_table" v-else>
+												<thead>
+													<tr role="row">
+														<th class="table_answer">回答</th>	
+													</tr>
+												</thead>
+												<tbody>
+													<tr class="" v-for="item in answers">
+														<td class="table_answer" v-if="item.type=='text'">{{item.value[0]}}</td>
 													</tr>
 												</tbody>
 											</table>
@@ -243,16 +260,15 @@
 			return{
 				login_user:{},
 				now_survey:{},
-				base_link:'http://localhost:8080/#!/fill/',
-				survey_link:'',
-				questions:[
-				], 
+				questions:[], 
 				now_tab:0,
-				now_page:0,
+				graph_type:0,
+				now_page:1,
 				page_index:1,
 				timer:null,
 				target:[],
-				answers:[]
+				answers:[],
+				flag:false
 			}
 		},  
 		methods:{
@@ -261,8 +277,43 @@
 				var survey_id = this.now_survey._id;
 				this.$router.go({name:'edit',params:{user_id:user_id,survey_id:survey_id}});
 			},
+			//左边栏
 			change_tab(i){
+				if(i==2&&!this.flag){
+					this._deal();
+					this.flag = true;
+				}
 				this.now_tab = i;
+			},
+			//切换数据展示方式
+			change_graph_type(i){
+				this.graph_type = i;
+				switch(i){
+					case 0 :{
+						break;
+					}
+					case 1:{
+						//饼状图
+						this._clear(i);
+						this._draw_pie(this.now_page);
+						break;
+					}
+					case 2:{
+						//柱形图
+						this._clear(i);
+						this._draw_column(this.now_page);
+						break;
+					}
+				}
+			},
+			//切换问题
+			changePage(index){
+				if(index==this.now_page){
+					return false;
+				}else{
+					this.now_page = index;
+					this.graph_type = 0;		
+				}
 			},
 			_preview(e){
 				var pages_bar = document.querySelector('#pages_list');
@@ -286,9 +337,188 @@
 					this.page_index++;
 				}
 			},
+			_deal(){
+				for(let i = 0;i<this.questions.length;i++){
+					if(this.questions[i].type=='radio'||this.questions[i].type=='checkbox'){
+						for(let j=0;j<this.questions[i].options.length;j++){
+							for(let k = 0;k<this.answers.length;k++){
+								if(this.questions[i]._id == this.answers[k].question){
+									this.answers[k].type = "choice";
+									for(let l = 0;l<this.answers[k].values.length;l++){
+										if(this.answers[k].values[l]===this.questions[i].options[j].value){
+											this.questions[i].options[j].count++;
+										}
+									}
+								}else{
+									this.answers[k].type = 'text'
+								}
+							}
+						}
+					}
+				}
+			},
+			_draw_pie(page){
+				var width = 600, height = 300;
+				console.log(d3);
+  				// 创建一个分组用来组合要画的图表元素
+  				var main = d3.select("#graph_pie svg").append('g')
+  					.classed('main', true)
+   					.attr('transform', "translate(" + width/2 + ',' + height/2 + ')');
+  				console.log(main);
+  				main.append('svg');
+	   			var dataSet = this.questions[page].options;
+	   			var sum = 0;
+	   			var pie = d3.layout.pie()
+				   .sort(null)
+				   .value(function(d) {
+				    return d.count;
+				   });
+				var pieData = pie(dataSet);
+  				
+  				var vm = this;
+  				pieData.forEach(function(d,i){  
+        			d._endAngle=d.endAngle;//保存这个值，后面动画要用到。  
+        			d.endAngle=d.startAngle;//让每个弧的弧度都是0  
+        			d.duration=2001*(d.data.count/vm.target.length);  
+        			d.delaytime=sum;  
+        			sum+=d.duration;  
+  				})
+
+  				var radius = 100;
+  				var arc = d3.svg.arc()
+   					.innerRadius(0)
+   					.outerRadius(radius);
+  				var outerArc = d3.svg.arc()
+   					.innerRadius(1.2 * radius)
+   					.outerRadius(1.2 * radius);
+  				var oArc = d3.svg.arc()
+   					.innerRadius(1.1 * radius)
+   					.outerRadius(1.1 * radius);
+  				var slices = main.append('g').attr('class', 'slices');
+  				var lines = main.append('g').attr('class', 'lines');
+  				var labels = main.append('g').attr('class', 'labels');
+  				
+  				var arcs = slices.selectAll('g')
+       				.data(pieData)
+       				.enter()
+       				.append('path')
+       				.attr('fill', function(d,i) {
+           				return vm._get_color(i);
+       				})
+       				.attr('d', function(d){
+            			return arc(d);
+        			})
+       				.transition()
+       				.duration(function(d,i){
+            			return d.duration;
+      				 })
+       				.ease("linear")
+       				.delay(function(d,i){
+            			return d.delaytime
+       				})
+       				.attrTween("d", vm.tweenArc(function(d, i) {  
+            			return {  
+                			startAngle: d.startAngle,     
+                			endAngle: d._endAngle  
+            			};  
+        			},arc));
+  				// 添加文字标签
+  				var texts = labels.selectAll('text')
+       				.data(pieData)
+       				.enter()
+       				.append('text')
+       				.attr('dy', '0.35em')
+       				.attr('fill', function(d, i) {
+        				return vm._get_color(i);
+       				})
+       				.transition()
+       				.duration(function(d,i){
+            			return d.duration;
+       				})
+       				.ease("bounce")
+       				.delay(function(d,i){
+            			return d.delaytime
+       				})
+       				.text(function(d, i) {
+        				return d.data.value;
+       				})
+       				.style('text-anchor', function(d, i) {
+        				return vm._midAngel(d)<Math.PI ? 'start' : 'end';
+       				})
+       				.attr('transform', function(d, i) {
+        			// 找出外弧形的中心点
+        				var pos = outerArc.centroid(d);
+        			// 改变文字标识的x坐标
+        				pos[0] = radius * (vm._midAngel(d)<Math.PI ? 1.5 : -1.5);
+        				return 'translate(' + pos + ')';
+   					})
+   					.style('opacity', 1);
+
+				var polylines = lines.selectAll('polyline')
+				   .data(pieData)
+				   .enter()
+				   .append('polyline')
+				   .transition()
+				   .duration(function(d,i){
+				        return d.duration;
+				    })
+				   .delay(function(d,i){
+				        return d.delaytime
+				    })
+				   .ease("bounce")
+				   .attr('points', function(d) {
+				    return [arc.centroid(d), arc.centroid(d), arc.centroid(d)];
+				   })
+				   .attr('points', function(d) {
+				    var pos = outerArc.centroid(d);
+				    pos[0] = radius * (vm._midAngel(d)<Math.PI ? 1.5 : -1.5);
+				    return [oArc.centroid(d), outerArc.centroid(d), pos];
+				   })
+				   .style('opacity', 0.5);
+			},
+			_draw_column(page){
+
+			},
+			_get_color(index){
+				var palette = [
+			       '#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80',
+			       '#8d98b3', '#e5cf0d', '#97b552', '#95706d', '#dc69aa',
+			       '#07a2a4', '#9a7fd1', '#588dd5', '#f5994e', '#c05050',
+			       '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
+			      ]
+			    return palette[index % palette.length];
+			},
+			_midAngel(d){
+				return d.startAngle + (d.endAngle - d.startAngle)/2;
+			},
+			tweenArc(b,arc) {  
+        		return function(a, i) {  
+            		var d = b.call(this, a, i),  
+                	i = d3.interpolate(a, d);  
+            		return function(t) {  
+                		return arc(i(t));  
+            		};  
+        		}  
+    		},
+    		_clear(i){
+    			var svg = null;
+    			switch(i){
+    				case 1:{
+    					svg = document.querySelector('#graph_pie svg');
+    					svg.innerHTML = "";
+    					break;
+    				}
+    				case 2:{
+    					svg = document.querySelector("#graph_column svg");
+    					svg.innerHTML = "";
+    					break;
+    				}
+    			}
+    		}
 		},
 		route:{
 			activate(){
+				//console.log(document.querySelector(".graph_pie"));
 				var current_survey = this.$route.params.survey_id;
 				var vm = this;
 				this.$http.get('/analyze_catch',{
@@ -304,10 +534,13 @@
 					this.questions.forEach(function(d,i){
 						d.count = 0;
 					})
+					this.answers.forEach(function(d,i){
+						d.type = "type";
+					})
 					for(var i = 0;i<this.questions.length;i++){
 						this.questions[i].options.forEach(function(d,i){
 							d.count = 0;
-						})
+						});
 					}
 				},function(err){
 					console.log('error');
@@ -735,7 +968,12 @@
 		background-color: #fff;
 		border: 1px solid #ddd;
 		cursor: pointer;
-
+	}
+	#chart .question_panel .graph_types .graph_type.active{
+		color: #fff;
+	    background: #58a6e7;
+	    position: relative;
+	    border: 1px solid #2b8ee1;
 	}
 	#chart .question_panel .graph_types .graph_type .ico{
 		display: inline-block;
@@ -754,5 +992,39 @@
 	#chart .question_panel .graph_types .graph_type .ico_column{
 		background-position: -135px -644px
 	}
+	#chart .question_panel .answers_warp .data_table{
+		width: 100%;
+	}
+	#chart .question_panel .answers_warp .data_table th{
+		padding: 15px 17px;
+		color: #999;
+	    background-color: #fafafa;
+	    border-top: 1px solid #ddd;
+	    border-bottom: 1px solid #ddd;
+	}
+	#chart .question_panel .answers_warp .data_table th.table_title{
+		width: 60%;
+	}
+	#chart .question_panel .answers_warp .data_table th.table_value{
+		width: 20%;
+	}
+	#chart .question_panel .answers_warp .data_table tbody td{
+		font-size: 14px;
+	    color: #666;
+	    padding: 15px 17px;
+	    border-bottom: 1px solid #eee;
+	}
 	/*chart end*/
+	/*SVG*/
+	polyline {
+  		fill: none;
+  		stroke: #000000;
+  		stroke-width: 2px;
+  		stroke-dasharray: 5px;
+  	}
+  	#graph_pie{
+  		margin: 30px auto;
+  		width: 600px;
+  		height: 300px;
+  	}
 </style>
