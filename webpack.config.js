@@ -4,13 +4,21 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: 'static',
-    publicPath:'http://localhost:3000/static/',
+    publicPath:'http://localhost:8080/static/',
     filename: 'build.js'
   },
   module: {
     // avoid webpack trying to shim process
     noParse: /es6-promise\.js$/,
     loaders: [
+      { 
+        test: /\.css$/, 
+        loader: 'style-loader!css-loader' 
+      },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
+      { test: /\.(woff|woff2)$/, loader:"url?prefix=font/&limit=5000" },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
       {
         test: /\.vue$/,
         loader: 'vue'
@@ -33,6 +41,14 @@ module.exports = {
     plugins: ['transform-runtime']
   },
   devServer:{
+    contentBase:'src/',
+    proxy:{
+      '**':{
+        target:"http://localhost:3000",
+        secure:false
+      }
+    },
+    historyApiFallback: false,
     hot:true,
     inline:true,
     progress:true,
