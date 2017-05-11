@@ -1,42 +1,55 @@
-export default(router) => router.map({
-	"/show/:user_id":{
-		name:"show",
-		component: require('./views/main.vue')
-	},
-	"/home":{
-		name:'home',
-		component : require("./views/home.vue")
-	},
-	"/loginPage":{
-		name : "login",
-		component : require("./views/login.vue")
-	},
-	"/signInPage":{
-		name : "signIn",
-		component : require("./views/signIn.vue")
-	},
-	"/create/:user_id":{
-		name : "create",
-		component : require("./views/create.vue")
-	},
-	"/mysurvey/:user_id":{
-		name : "mysurvey",
-		component : require("./views/mySurvey.vue")
-	},
-	"/template":{
-		name : "template",
-		component : require("./views/template.vue")
-	},
-	'/editpage/:user_id/:survey_id':{
-		name : "edit",
-		component : require('./views/edit_page.vue')
-	},
-	'/fill/:survey_id':{
-		name : "fill",
-		component : require('./views/fill.vue')
-	},
-	'/analyze/:survey_id':{
-		name : 'analyze',
-		component : require('./views/analyze.vue')
-	}
-})
+export default {
+	routes:[
+		{
+			name:'show',
+			path:'/show/:user_id',
+			component:require('./views/main.vue'),
+		},
+		{
+			name:'home',
+			path:'/home',
+			component:require("./views/home.vue")
+		},
+		{
+			name:'login',
+			path:'/loginPage',
+			component:require("./views/login.vue")
+		},
+		{
+			name:'signIn',
+			path:'/signInPage',
+			component: require("./views/signIn.vue")
+		},
+		{
+			name:'create',
+			path:'/create/:user_id',
+			component:require("./views/create.vue")
+		},
+		{
+			name:'mysurvey',
+			path:'/mysurvey/:user_id',
+			component:require("./views/mySurvey.vue")
+		},
+		{
+			name:'template',
+			path:'/template',
+			component:require("./views/template.vue")
+		},
+		{
+			name:'edit',
+			path:'/editpage/:user_id/:survey_id',
+			component:require('./views/edit_page.vue')
+		},
+		{
+			name:'fill',
+			path:'/fill/:survey_id',
+			component:require('./views/fill.vue')
+		},
+		{
+			name:'analyze',
+			path:'/analyze/:survey_id',
+			component:require('./views/analyze.vue')
+		},
+		{ path: "/", redirect: '/home' }
+	]
+}
