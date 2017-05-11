@@ -16,14 +16,17 @@
         document.body.scrollTop = 0;
       },
     },
-    ready() {
-      window.onscroll = () => {
-        if (document.body.scrollTop > 0) {
-          this.show = true;
-        } else {
-          this.show = false;
-        }
-      };
+    mounted() {
+      this.$nextTick(function () {
+        // 代码保证 this.$el 在 document 中
+        window.onscroll = () => {
+          if (document.body.scrollTop > 0) {
+            this.show = true;
+          } else {
+            this.show = false;
+          }
+        };
+      })
     },
     beforeDestory() {
       window.onscroll = null;
