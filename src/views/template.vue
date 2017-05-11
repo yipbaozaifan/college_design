@@ -1,4 +1,5 @@
 <template>
+<div>
 	<navbar placement="top" type="default">
   		<!-- Brand as slot -->
   	  <a slot="brand" href="/" title="Home" class="navbar-brand">VueStrap</a>
@@ -33,21 +34,16 @@
 						</span>
 			</div>
 	</div>
-	<backtop></backtop>
+</div>
+	
 </template>
 
 <script>
-	import $ from 'jquery';
-	import api from '../tools/api/dataApi.js';
-	import navigation from '../components/navigation.vue';
-	import backtop from '../components/backTop.vue';
 	import {carousel} from 'vue-strap';
 	import {slider} from 'vue-strap';
 	import {navbar} from 'vue-strap';
 	export default {
 		components: {
-	      backtop,
-	      navigation,
 	      carousel,
 	      slider,
 	      navbar

@@ -1,19 +1,15 @@
 <template>
-	<navbar placement="top" type="default">
-  		<!-- Brand as slot -->
-  	  <a slot="brand" href="/" title="Home" class="navbar-brand">VueStrap</a>
-  		<!-- You can use dropdown component -->
-  		<!-- For right positioning use slot -->
-  	  <li>
-  	  	<a v-link="{path:'/create'}" class="nav_btn">创建问卷</a>
-  	  </li>
-  	  <li>
-  	  	<a v-link="{path:'/mysurvey'}" class="nav_btn">我的问卷</a>
-  	  </li>
-	  <li slot="right" id="nav_userbar">
-	    <img src="../img/boy.png" class="navbar_head"><span class="navbar_name">野仔湛</span><span id="splitor">|</span><a id="nav_exit_btn">退出</a>
-	  </li>
-	</navbar>
+<div>
+	<el-menu theme="light" :default-active="activeIndex" mode="horizontal" >
+		<el-menu-item index="create">
+			<router-link :to="{name:'create',params:{user_id:login_user.id}}" >创建问卷
+			</router-link>
+		</el-menu-item>
+		<el-menu-item index="mySurvey">
+		  	<router-link :to="{name:'mysurvey',params:{user_id:login_user.id}}">我的问卷
+		  	</router-link>
+		 </el-menu-item>
+	</el-menu>
 	<div class="sub_header">
 		<div class="sub_header_content">
 			<div class="sub_nav">
@@ -107,11 +103,11 @@
 										</tr>
 									</thead>
 									<tbody id="list">
-										<tr v-for = 'item in target'>
+										<tr v-for = 'item,index in target'>
 											<td class="input_td">
 												<input class="survey_form_checkbox" type="checkbox" name="delete_checkbox">
 											</td>
-											<td>{{$index+1}}</td>
+											<td>{{index+1}}</td>
 											<td>{{item.start_time}}</td>
 											<td>{{item.end_time}}</td>
 											<template v-for = 'answer in answers'>
@@ -139,8 +135,8 @@
 								</a>
 								<div class="pages_warp">
 									<ul id="pages_list">
-										<li v-for = "i in questions" class="pages_item" v-bind:class="{'current':now_page==($index+1)}" v-on:click = "changePage($index+1)">
-											<span>第{{$index+1}}题</span>
+										<li v-for = "i,index in questions" class="pages_item" v-bind:class="{'current':now_page==(index+1)}" v-on:click = "changePage(index+1)">
+											<span>第{{index+1}}题</span>
 										</li>
 									</ul>
 								</div>
@@ -242,20 +238,12 @@
 			</div>
 		</div>	
 	</div>
-	<backtop></backtop>
+</div>
+	
 </template>
 
 <script>
-	import api from '../tools/api/dataApi.js';
-	import backtop from '../components/backTop.vue';
-	import {navbar} from 'vue-strap';
-	import {modal} from 'vue-strap';
 	export default {
-		components: {
-	      backtop,
-	      navbar,
-	      modal
-    	},
 		data(){
 			return{
 				login_user:{},
@@ -270,12 +258,15 @@
 				answers:[],
 				flag:false
 			}
-		},  
+		}, 
+		created(){
+			this.fetchData()
+		},
 		methods:{
 			go_edit(){
 				var user_id = this.login_user.user.user_id;
 				var survey_id = this.now_survey._id;
-				this.$router.go({name:'edit',params:{user_id:user_id,survey_id:survey_id}});
+				this.$router.push({name:'edit',params:{user_id:user_id,survey_id:survey_id}});
 			},
 			//左边栏
 			change_tab(i){
@@ -453,7 +444,7 @@
         				return 'translate(' + pos + ')';
    					})
    					.style('opacity', 1);
-
+   				//添加圆外折线
 				var polylines = lines.selectAll('polyline')
 				   .data(pieData)
 				   .enter()
@@ -514,12 +505,9 @@
     					break;
     				}
     			}
-    		}
-		},
-		route:{
-			activate(){
-				//console.log(document.querySelector(".graph_pie"));
-				var current_survey = this.$route.params.survey_id;
+    		},
+    		fetchData(){
+    			var current_survey = this.$route.params.survey_id;
 				var vm = this;
 				this.$http.get('/analyze_catch',{
 					params:{
@@ -545,19 +533,12 @@
 				},function(err){
 					console.log('error');
 				})
-			}
+    		}
 		}
 	}
 </script>
 
 <style type="text/css">
-	ul{
-		margin: 0;
-		padding: 0;
-	}
-	h2{
-		color:#fff;
-	}
 	@keyframes needle{
 		0% {
     		transform: rotate(0deg);

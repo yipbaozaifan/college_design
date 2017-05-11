@@ -1,5 +1,5 @@
 <template>
-	<div class="fill">
+	<div class="fill" v-loading.body="loading">
 			<div class="fill_content">
 				<div class="container fill_main">
 					<div class="survey_title" v-show="now_page==0">
@@ -58,26 +58,23 @@
 								</div>
 							</div>
 							<div class="input">
-								<template v-if="questions[now_page-1].type=='checkbox'">
-									<div class="fill_option_item" v-for='item in questions[now_page-1].options'>
-									<checkbox :value="item.value" type="info" :checked.sync="item.checked">{{item.value}}</checkbox>
+								<el-checkbox-group v-model="questions[now_page-1].value" v-if="questions[now_page-1].type=='checkbox'">
+									<div v-for='item in questions[now_page-1].options'>
+										<el-checkbox :label="item.value"></el-checkbox>
 									</div>
-								</template>
-								<template v-if="questions[now_page-1].type=='radio'">
-									<div class="fill_option_item" v-for='item in questions[now_page-1].options'>
-									<radio :value="item.value" type="info" :checked.sync="questions[now_page-1].value">{{item.value}}</radio>
+								</el-checkbox-group>
+								<el-radio-group v-model="questions[now_page-1].value" v-if="questions[now_page-1].type=='radio'">
+								    <div v-for='item in questions[now_page-1].options'>
+										<el-radio :label="item.value"></el-radio>
 									</div>
-								</template>
-								<template v-if='questions[now_page-1].type=="text"'>
-									<div class="fill_from_input" >
-									<vueinput type="text" :value.sync = 'questions[now_page-1].value'></vueinput>
-									</div> 
-								</template>
-								<template v-if='questions[now_page-1].type=="textarea"'>
-									<div class="fill_from_input" >
-									<vueinput type="textarea" :value.sync = 'questions[now_page-1].value'></vuein put>
-									</div> 
-								</template>
+								</el-radio-group>
+								<el-input v-model='questions[now_page-1].value' class="fill_from_input" v-if='questions[now_page-1].type=="text"'></el-input>
+								<el-input
+								  type="textarea"
+								  :rows="5"
+								  v-model='questions[now_page-1].value'
+								  v-if='questions[now_page-1].type=="textarea"'>
+								</el-input>
 							</div>
 						</div>
 					</div>
@@ -95,25 +92,20 @@
 </template>
 
 <script> 
-	import api from '../tools/api/dataApi.js';
-	import {checkbox} from 'vue-strap';
-	import {radio} from 'vue-strap';
-	import {input as vueinput} from 'vue-strap';
 	export default {
-		components: {
-			checkbox,
-			radio,
-			vueinput
-    	},
 		data(){
 			return{
 				now_survey:{},
 				questions:[],
 				answers:[],
 				now_page:0,
-				target:{}
+				target:{},
+				loading:true
 			}
-		},  
+		}, 
+		created(){
+			this.fetchData();
+		},
 		methods:{
 			start(){
 				if(this.questions.length==0){
@@ -195,10 +187,8 @@
 					alert('此题必填')
 				}
 				
-			}
-		},
-		route:{
-			activate(transition){
+			},
+			fetchData(){
 				var current_survey = this.$route.params.survey_id;
 				var vm = this;
 				this.$http.get('/get_survey',{
@@ -208,11 +198,9 @@
 					}
 				}).then(function(res){
 					vm.now_survey = res.data.data[0];
-					console.log(res.data.data);
 					if(res.data.data[1].target){
 						vm.target = res.data.data[1].target;
 					}else{
-						console.log('出错了！');
 						return false;
 					}
 					if(!vm.now_survey.question==0){
@@ -221,8 +209,16 @@
 						vm.$http.get('/get_questions',{
 							params:{belong_survey:belong_survey}
 						}).then(function(res){
-							console.log(res.data);
 							vm.questions = res.data.data[0].questions;
+							vm.questions.forEach(function(item){
+								if(item.type === "checkbox"){
+									item.value = [];
+								}else{
+									item.value = '';
+								}
+							})
+							console.log(vm.questions);
+							this.loading = false
 						},function(err){
 							console.log('出错了')
 						})
@@ -231,7 +227,6 @@
 					console.log('出错了');
 					return;
 				});
-				transition.next();
 			}
 		}
 	}

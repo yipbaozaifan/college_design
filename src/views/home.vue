@@ -1,36 +1,29 @@
 <template>
-	<navbar placement="top" type="default">
-  	  	<a slot="brand" href="/" title="Home" class="navbar-brand">VueStrap</a>
-	</navbar>
 	<div id="homePage">
 		<div class="mask"></div>
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
+			<el-row>
+				<el-col :span = "24">
 					<div class="intro-message">
-						<h1>share world</h1>
-						<h3>简单免费的问卷平台</h3>
-						<a  class = "btn btn-default btn-lg">填写问卷</a>
-						<hr style="width:40%">
+						<p class="home_title">share world</p>
+						<p class="home_intro">简单免费的问卷平台</p>
+						<hr style="width:40%;">
 						<ul class="list-inline">
 							<li>
-								<a class = "btn btn-default btn-lg" v-link="{name:'login',}"><span>登录</span></a>
+								<router-link to="/loginPage" ><el-button>登录</el-button></router-link>
 							</li>
 							<li>
-								<a class = "btn btn-default btn-lg" v-link="{name:'signIn'}"><span>注册</span></a>
+								<router-link to="/signInPage" ><el-button>注册</el-button></router-link>
 							</li>
 						</ul>
 					</div>
-				</div>
-			</div>
-			<div class="row"></div>
+				</el-col>
+			</el-row>
 		</div>
 	</div>	
 </template>
 
 <script>
-	import $ from 'jquery';
-	import api from '../tools/api/dataApi.js';
 	import {navbar} from 'vue-strap';
 	export default {
 		components:{
@@ -43,11 +36,6 @@
 		},  
 		methods:{
 			
-		},
-		router:{
-			data(transition){
-				
-			}
 		}
 	}
 </script>
@@ -73,9 +61,16 @@
 		background-size: cover;
 	}
 	.intro-message{
-		margin-top:150px;
+		margin-top:200px;
 		color: #fff;
-		font-size: 3em;
+	}
+	.home_title{
+		font-size: 3rem;
+		margin-bottom: 10px;
+	}
+	.home_intro{
+		font-size: 2rem;
+		margin-bottom: 10px;
 	}
 </style>
 

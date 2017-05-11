@@ -1,19 +1,13 @@
 <template>
-	<navbar placement="top" type="default">
-  		<!-- Brand as slot -->
-  	  <a slot="brand" href="/" title="Home" class="navbar-brand">VueStrap</a>
-  		<!-- You can use dropdown component -->
-  		<!-- For right positioning use slot -->
-  	  <li>
-  	  	<a v-link="{name:'create',params:{user_id:login_user.id}}" class="nav_btn">创建问卷</a>
-  	  </li>
-  	  <li>
-  	  	<a v-link="{name:'mysurvey',params:{user_id:login_user.id}}" class="nav_btn">我的问卷</a>
-  	  </li>
-	  <li slot="right" id="nav_userbar">
-	    <img src="../img/boy.png" class="navbar_head"><span class="navbar_name">野仔湛</span><span id="splitor">|</span><a id="nav_exit_btn">退出</a>
-	  </li>
-	</navbar>
+<div id = "edit_page">
+	<el-menu theme="light" :default-active="activeIndex" mode="horizontal" >
+		  			<el-menu-item index="create"><router-link :to="{name:'create',params:{user_id:login_user.id}}" >创建问卷
+		  			</router-link>
+		  			</el-menu-item>
+		  			<el-menu-item index="mySurvey"><router-link :to="{name:'mysurvey',params:{user_id:login_user.id}}">我的问卷
+		  			</router-link>
+		  			</el-menu-item>
+	</el-menu>
 	<div class="sub_header">
 		<div class="sub_header_content">
 			<div class="sub_nav">
@@ -22,15 +16,15 @@
 				<a class="sub_nav_item" v-if='now_survey.status==0' v-on:click="go_analyze()">统计分析</a>
 			</div>
 			<div class="published">
-				<a class="sub_nav_item" v-show = 'now_survey.status==0' v-on:click='share()'>分享</a>
-				<a class='sub_nav_item start_btn' v-if='now_survey.status==1' v-on:click='publish()'>开始发布</a>
-				<a class="sub_nav_item pause_btn" v-if='now_survey.status==0' v-on:click='pause()'>暂停发布</a>
-				<a class="sub_nav_item disable_btn" v-if='now_survey.status==-1'>已回收</a>
+				<el-button v-show = 'now_survey.status==0' v-on:click='share()' type = "text">分享</el-button>
+				<el-button v-if='now_survey.status==1' v-on:click='publish()' type = "info">开始发布</el-button>
+				<el-button v-if='now_survey.status==0' v-on:click='pause()' type = "info">暂停发布</el-button>
+				<el-button v-if='now_survey.status==-1' >已回收</el-button>
 			</div>
 		</div>
 	</div>
 	<div class="editor_main">
-		<div class=" warp survey_warp container">
+		<div class="warp survey_warp">
 			<div class="survey_pages_tab">
 				<a class="pages_preview" v-on:click="_preview($event)">
 					<i> < </i>
@@ -40,9 +34,9 @@
 						<li id="first_page" class="pages_item" v-bind:class="{'current':now_page==0}" v-on:click="changePage(0)">
 							<span>封面</span>
 						</li>
-						<li v-for = "i in questions" class="pages_item" v-bind:class="{'current':now_page==($index+1)}" v-on:click = "changePage($index+1)">
-							<span>第{{$index+1}}题</span>
-							<a class="pages_remove" v-on:click = "question_remove($index)">x</a>
+						<li v-for = "i,index in questions" class="pages_item" v-bind:class="{'current':now_page==(index+1)}" v-on:click = "changePage(index+1)">
+							<span>第{{index+1}}题</span>
+							<a class="pages_remove" v-on:click = "question_remove(index)">x</a>
 						</li>
 						<li id="last_page" class="pages_item" v-bind:class="{'current':now_page==-1}" v-on:click = "changePage(-1)">
 							<span>结束语</span>
@@ -59,19 +53,19 @@
 			</div>
 			<div class="survey_main">
 				<div class="cover container" v-if="now_page == 0">
-					<h2 class="title_content" contenteditable="true" v-edit="now_survey.survey_name">{{now_survey.survey_name}}</h2>
-					<p class="intro_content" contenteditable="true" v-edit='now_survey.intro'>{{now_survey.intro}}</p>
+					<editable class="title_content" type = "h1" v-model = "now_survey.survey_name"></editable>
+					<editable class = "intro_content" type = "p" v-model = "now_survey.intro"></editable>
 				</div>
 				<div class="the_end container" v-if="now_page == -1">
 					<img src="../img/end.png" class="end_pic">
-					<p class="end_content" contenteditable="true" v-edit='end'>{{now_survey.end}}</p>
+					<editable class = "end_content" type = "p" v-model = "now_survey.end"></editable>
 				</div>
 				<div class="question_warp container" v-if="now_page!=0&&now_page!=-1">
 					<div class="row edit_title">
 						<label class="row_title">题目</label>
 						<div class="row_content">
 							<div class="mod_editor" >
-								<p contenteditable="true" v-edit="questions[now_page-1].title">{{questions[now_page-1].title}}</p>
+								<editable  type = "p" v-model = "questions[now_page-1].title"></editable>
 							</div>
 						</div>
 					</div>
@@ -79,7 +73,7 @@
 						<label class="row_title">备注</label>
 						<div class="row_content">
 							<div class="mod_editor">
-								<p contenteditable="true" v-edit="questions[now_page-1].desc">{{questions[now_page-1].desc}}</p>
+								<editable type = "p" v-model = "questions[now_page-1].desc"></editable>
 							</div>
 						</div>
 					</div>
@@ -99,13 +93,13 @@
 					<div class="row edit_options" v-if="questions[now_page-1].type=='radio'||questions[now_page-1].type=='checkbox'">
 						<ul class="options_list">
 							<ul class="normal_options">
-								<li class="option_item" v-for="item in questions[now_page-1].options" track-by="$index">
+								<li class="option_item" v-for="item,index in questions[now_page-1].options" track-by="index">
 									<div class="option_input_warp">
 										<div class="mod_editor" style="width: 100%">
-											<p contenteditable="true" v-edit='questions[now_page-1].options[$index].value'>{{item.value}}</p>
+											<editable type = "p" v-model = "questions[now_page-1].options[index].value"></editable>
 										</div>
 									</div>
-									<a class="btn del_btn" v-on:click="del_option($index)">x</a>
+									<a class="btn del_btn" v-on:click="del_option(index)">x</a>
 								</li>
 							</ul>
 							<li class="option_item option_create" v-on:click="append_option()">
@@ -116,54 +110,41 @@
 						</ul>
 					</div>
 					<div class="row edit_control">
-						<a class="btn" id="save_btn" v-on:click= "_save()">保存</a>
+						<el-button  id="save_btn" v-on:click= "_save()" v-show = "now_survey.status ==1">保存</el-button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<modal :show.sync='showModal'>
-		<div slot='modal-header' class="modal-header">
-			<h3 class="modal-title">问卷分享</h3>
-		</div>
-		<div slot = 'modal-body' class="modal-body">
-			<p class="">问卷链接</p>
-			<div class="modal-body_warp">
-				<input type="text" name="" id="share_link" v-model="survey_link">
-				<button>复制</button>
-				<button v-on:click="open_link(survey_link)">打开</button>
+	<model :show = "show_modal" @close = "show_modal = false">
+		<h3 slot = "modal-header">问卷分享</h3>
+		<div slot = 'modal-body'>
+			<p class="modal_body_header">问卷链接</p>
+			<div class="modal_body_warp">
+				<el-input id="share_link" v-model="survey_link"></el-input>
+				<el-button>复制</el-button>
+				<el-button v-on:click="open_link(survey_link)">打开</el-button>
 			</div>
 		</div>
-		<div slot='modal-footer' class="modal-footer">
-			<button type="button" class="btn btn-default" @click="showModal = false">取消</button>
-		</div>
-	</modal>
-	<backtop></backtop>
+		<el-button @click="show_modal = false" type = "primary" slot='modal-footer'>取消</el-button>
+	</model>
+</div>	
 </template>
 
 <script>
-	import api from '../tools/api/dataApi.js';
-	import navigation from '../components/navigation.vue';
-	import backtop from '../components/backTop.vue';
-	import {carousel} from 'vue-strap';
-	import {slider} from 'vue-strap';
-	import {navbar} from 'vue-strap';
-	import {modal} from 'vue-strap';
+	import editable from '../components/canEditHTML.vue';
+	import model from '../components/model.vue';
 	export default {
-		components: {
-	      backtop,
-	      navigation,
-	      carousel,
-	      slider,
-	      navbar,
-	      modal
-    	},
+		components:{
+			editable,
+			model
+		},
 		data(){
 			return{
+				show_modal : false,
 				login_user:{},
 				now_survey:{},
-				showModal:false,
-				base_link:'http://localhost:3000/#!/fill/',
+				base_link:'http://localhost:8080/#/fill/',
 				questions:[], 
 				now_page:0,
 				page_index:1,
@@ -171,6 +152,9 @@
 				survey_link:''
 			}
 		},  
+		created(){
+			this.fetchData();
+		},
 		methods:{
 			_isRepeat(arr){
 				//检测数组重复，存在重复返回true，不存在返回false
@@ -249,33 +233,53 @@
 			},
 			go_analyze(){
 				var _id = this.now_survey._id;
-				this.$router.go({name:'analyze',params:{survey_id:_id}})
+				this.$router.push({name:'analyze',params:{survey_id:_id}})
 			},
 			share(){
 				this.survey_link = this.base_link+this.now_survey._id;
-				this.showModal = true;
+				this.show_modal = true;
 			},
 			_save(){
 				//判断标题非空
 				if(this.title==''){
-					alert('问卷标题不能为空');
+					this.$message({
+          				showClose: true,
+          				message: '问卷标题为空',
+          				type: 'warning'
+        			})
 					return false;
 				}
 				//判断问题标题非空
 				for(var i = 0;i<this.questions.length;i++){
 						if(this.questions[i].title==''){
-							alert("第"+i+"题标题为空");
+							this.$message({
+          						showClose: true,
+          						message: "第"+i+"题标题为空",
+          						type: 'warning'
+        					})
 							return false; 
 						}
 						if(this.questions[i].type=='radio'||this.questions[i].type=="checkbox"){
-							if(this.questions[i].options.length==0){//检测有无选项
-								alert("第"+(i+1)+"题未添加选项");
+							if(this.questions[i].options.length==0){
+								this.$message({
+          							showClose: true,
+          							message: "第"+(i+1)+"题未添加选项",
+          							type: 'warning'
+        						})
 								return false;
-							}else if(this._isNull(this.questions[i].options)){//检测存在空选项
-								alert("第"+(i+1)+"题选项为空");
+							}else if(this._isNull(this.questions[i].options)){
+								this.$message({
+          							showClose: true,
+          							message: "第"+(i+1)+"题选项为空",
+          							type: 'warning'
+        						})
 								return false;
-							}else if(this._isRepeat(this.questions[i].options)){//检测重复选项
-								alert("第"+(i+1)+"题有相同选项");
+							}else if(this._isRepeat(this.questions[i].options)){
+								this.$message({
+          							showClose: true,
+          							message: "第"+(i+1)+"题有相同选项",
+          							type: 'warning'
+        						})
 								return false;
 							}
 						}
@@ -289,8 +293,17 @@
 				 this.$http.post('/save_survey',data).then(function(res){
 				 	console.log(res.data);
 				 	this.questions = res.data.data[0].questions;
+				 	this.$message({
+          				showClose: true,
+          				message: '保存成功',
+          				type: 'success'
+        			})
 				 },function(err){
-				 	console.log('fail');
+				 	this.$message({
+          				showClose: true,
+          				message: '出错了！保存失败',
+          				type: 'success'
+        			})
 				 })
 			},
 			publish(){
@@ -304,11 +317,8 @@
 			},
 			open_link(url){
 				window.open(url);
-			}
-		},
-		route:{
-			activate(transition){
-				this.login_user.id = this.$route.params.user_id;
+			},
+			fetchData(){
 				var current_survey = this.$route.params.survey_id;
 				var vm = this;
 				this.$http.get('/get_survey',{
@@ -331,20 +341,19 @@
 				},function(err){
 					console.log('出错了');
 				})
-				transition.next();
+			}
+		},
+		route:{
+			beforeRouteEnter(to,from,next){
+				next(vm => {
+					vm.login_user.id = to.params.user_id;
+				});
 			}
 		}
 	}
 </script>
 
 <style type="text/css">
-	ul{
-		margin: 0;
-		padding: 0;
-	}
-	h2{
-		color:#fff;
-	}
 	.editor_main{
 		height: 100%;
 	}
@@ -359,64 +368,13 @@
 		margin :0 auto;
 		text-align: center;
 	}
-	.bg_w{
-		background-color: #fff;
-	}
-	.bg_c1{
-		background-color: #90d67e;
-	}
-	.bg_c2{
-		background-color: #2e8cdb;
-	}
-	.bg_g{
-		background-color: #f5f5f5;
-	}
-	#nav_userbar{
-		right:20px;
-	}
-	.nav_btn{
-	}
-	.nav_btn:hover{
-		color:  #58a6e7;
-	}
-	#nav_exit_btn{
-		padding: 0;
-		display: inline-block;
-		vertical-align: top;
-		line-height: 50px;
-	}
-	.navbar_name{
-		display: inline-block;
-		line-height: 50px;
-	}
-	.navbar_head{
-		line-height: 50px;
-		display: inline-block;
-		width: 25px;
-		height: 25px;
-		border-radius: 50%;
-		margin: 0 3px;
-	}
 	#splitor{
 		margin: 0 3px;
 	}
-	.contact{
-		padding: 30px 0;
-		height: 120px;
-	}
-	.contact_github a{
-		display: inline-block;
-		line-height:60px;
-	}
-	.github_logo{
-		width: 30px;
-		height: 30px;
-		display: inline-block;
-		vertical-align: middle;
-	}
 	.sub_header{
+		box-sizing: border-box;
 		position: fixed;
-		top: 50px;
+		top: 60px;
 		width: 100%;
 		z-index: 999;
 		height: 50px;
@@ -425,6 +383,7 @@
 		background-color: #f8f8f8;
 		border: 1px solid #e7e7e7;
 		border-width: 0 0 1px;
+		padding-right:20px; 
 	}
 	.sub_nav{
 		font-size: 20px;
@@ -450,6 +409,13 @@
 		font-size: 14px;
 		text-align: left;
 		vertical-align: middle;
+	}
+	.survey_main{
+		width: 80%;
+		margin: 0 auto;
+	}
+	.survey_main h2{
+		color: #000;
 	}
 	.survey_pages_tab{
 		position: absolute;
@@ -613,24 +579,19 @@
 		float: right;
 		font-size: 16px;
 	}
-	.published .sub_nav_item{
-		height: 40px;
-		line-height: 40px; 
-		display: inline-block;
-		border-radius: 5px; 
+	.published .el-button{
+		font-size: 18px;
 	}
 	.start_btn,.pause_btn{
 		background-color: #479de6;
 		color: #fff;
 	}
-	.modal-body{
-		font-size: 1.17em;
-	}
-	.modal-body_warp{
+	.modal_body_warp{
 		text-align: center;
 		position: relative;
+		margin: 15px 0;
 	}
-	.modal-body_warp button{
+	.modal_body_warp button{
 		background-color: #fff;
 		border:1px solid #ccc;
 		padding: 0 20px;

@@ -1,52 +1,31 @@
 <template>
-	<navbar placement="top" type="default">
-  		<!-- Brand as slot -->
-  	  <a slot="brand" href="/" title="Home" class="navbar-brand">VueStrap</a>
-  		<!-- You can use dropdown component -->
-  		<!-- For right positioning use slot -->
-  	  <li>
-  	  	<a href="" class="nav_btn">创建问卷</a>
-  	  </li>
-  	  <li>
-  	  	<a href="" class="nav_btn">我的问卷</a>
-  	  </li>
-	  <li slot="right" id="nav_userbar">
-	    <img src="../img/boy.png" class="navbar_head"><span class="navbar_name">野仔湛</span><span id="splitor">|</span><a id="nav_exit_btn">退出</a>
-	  </li>
-	</navbar>
 	<div class="create">
-			<div class="warp create_choice">
-						<div class="col-sm-6 create_by_empty bg_c1">
+			<el-menu theme="light" :default-active="activeIndex" mode="horizontal" >
+		  			<el-menu-item index="create"><router-link :to="{name:'create',params:{user_id:login_user.id}}" >创建问卷
+		  			</router-link>
+		  			</el-menu-item>
+		  			<el-menu-item index="mySurvey"><router-link :to="{name:'mysurvey',params:{user_id:login_user.id}}">我的问卷
+		  			</router-link>
+		  			</el-menu-item>
+			</el-menu>
+			<div class="create_choice">
+						<el-col class="create_by_empty bg_c1" :span="12">
 							<div class="type_show"></div>
 							<h2 style="color:#fff">创建空白问卷</h2>
-							<a class="btn start_btn" v-on:click='create'>开始创建</a>
-						</div>
-						<div class="col-sm-6 create_by_template bg_c2">
+							<el-button class="start_btn" v-on:click='create' type="primary">开始创建</el-button>
+						</el-col>
+						<el-col class=" create_by_template bg_c2" :span="12">
 							<div class="type_show"></div>
 							<h2 style="color:#fff">选择问卷模板</h2>
-							<a class="btn start_btn">开始创建</a>
-						</div>
+							<el-button class="start_btn">开始创建</el-button>
+						</el-col>
 			</div>
 	</div>
-	<backtop></backtop>
+	
 </template>
 
 <script>
-	import $ from 'jquery';
-	import api from '../tools/api/dataApi.js';
-	import navigation from '../components/navigation.vue';
-	import backtop from '../components/backTop.vue';
-	import {carousel} from 'vue-strap';
-	import {slider} from 'vue-strap';
-	import {navbar} from 'vue-strap';
 	export default {
-		components: {
-	      backtop,
-	      navigation,
-	      carousel,
-	      slider,
-	      navbar
-    	},
 		data(){
 			return{
 				flag:true,  
@@ -63,7 +42,6 @@
 		},  
 		methods:{
 			create(){
-				console.log(typeof this.login_user.id)
 				var blank_survey = {
 					user:this.login_user.id,
 					intro:'为了给您提供更好的服务，希望您能抽出几分钟时间，将您的感受和建议告诉我们，我们非常重视每位用户的宝贵意见，期待您的参与！现在我们就马上开始吧！',
@@ -77,17 +55,16 @@
 				this.$http.put('/create',blank_survey).then(function(res){
 						var new_survey_id = res.data.data[0].id;
 						var user_id = vm.login_user.id;
-						vm.$router.go({name:'edit',params:{user_id:user_id,survey_id:new_survey_id}})
+						vm.$router.push({name:'edit',params:{user_id:user_id,survey_id:new_survey_id}})
 				},function(err){
 					console.log('出错了')
 				})
 			}
 		},
-		route:{
-			activate(transition){
-				this.login_user.id = this.$route.params.user_id;
-				transition.next();
-			}
+		beforeRouteEnter(to,from,next){
+			next(vm => {
+				vm.login_user.id = to.params.user_id;
+			});
 		}
 	}
 </script>

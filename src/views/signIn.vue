@@ -1,26 +1,24 @@
 <template>
 	<div class="container " style="text-align: center;" id="loginPage">
-		<div class="row">
-				<div class="login-pannel col-md-4 col-md-offset-7">
+		<el-row>
+			<el-col :span="10" :offset="12" class="login-pannel">
 					<h3 style="color: #31b0d5">join us</h3>
-					<input type="text" name="username" v-model="username" placeholder="username">
-					<input type="password" name="password" v-model="password" placeholder="password">
-					<div style="width: 80%;margin: 20px auto 0 auto">
-						<a class="signup_btn" v-on:click = "signUp">注册</a>
+					<el-input v-model="username" placeholder="username"></el-input>
+					<el-input v-model="password" placeholder="password" type="password"></el-input>
+					<div class="operation">
+						<el-button type="primary" :loading="loading" v-on:click="signUp">注册</el-button>
 					</div>
 					<div class="other_choices">
-						<a href="">登录</a>
+						<el-button type="text">登录</el-button>
 						<span>|</span>
-						<a href="">返回</a>
+						<el-button type="text">返回</el-button>
 					</div>
-				</div>
-		</div>
+			</el-col>
+		</el-row>
 	</div>
 </template>
 
 <script>
-	import $ from 'jquery';
-	import api from '../tools/api/dataApi.js';
 	export default {
 		data(){
 			return{
@@ -38,7 +36,6 @@
 					'password':password,
 					'nicName':'野仔湛'
 				}
-
 				var result = this.$http.post('/signIn',data).then(function(res){
 					console.log(res);
 				},function(err){
@@ -46,12 +43,11 @@
 				})
 			}
 		},
-		router:{
-			data(transition){
-				this.username='';
-				this.password='';
-				this.user = '';
-			}
+		beforeRouteEnter(to,from,next){
+			next(vm => {
+				vm.username = "";
+				vm.password = "";
+			})
 		}
 	}
 </script>`
@@ -71,14 +67,6 @@
 		padding: 1.5em;
 		background: #fff;
 	}
-	.login-pannel input{
-		display: block;
-		width: 80%;
-		margin: 20px auto;
-		padding: 10px 0 10px 10px;
-    	line-height: 18px;
-    	font-size: 1em;
-	}
 	.signup_btn{
 		width: 100%;
 		background-color: #31b0d5;
@@ -87,10 +75,6 @@
 		display: inline-block;
 		line-height:38px ;
 		border-radius: 5px;
-	}
-	.other_choices{
-		margin-top:20px;
-		color: #999;
 	}
 	.other_choices a {
 		color: #999;
