@@ -1,24 +1,25 @@
-var webpack = require('webpack')
+var webpack = require('webpack');
+var ENV = process.env.NODE_ENV;
 
 module.exports = {
   entry: './src/main.js',
   output: {
     path: 'static',
-    publicPath:'http://localhost:8080/static/',
+    publicPath:ENV==='production'?'http://localhost:3000/static/':'http://localhost:8080/static/',
     filename: 'build.js'
   },
   module: {
     // avoid webpack trying to shim process
     noParse: /es6-promise\.js$/,
     loaders: [
-      { 
-        test: /\.css$/, 
-        loader: 'style-loader!css-loader' 
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
       },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.(woff|woff2)$/, loader:"url?prefix=font/&limit=5000" },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+        loader: 'file-loader'
+      },
       {
         test: /\.vue$/,
         loader: 'vue'
@@ -52,7 +53,13 @@ module.exports = {
     hot:true,
     inline:true,
     progress:true,
-  }
+  },
+  resolve: {
+    alias: {
+      'vue': 'vue/dist/vue.js',
+    }
+  },
+  devtool: '#eval-source-map'
 }
 
 if (process.env.NODE_ENV === 'production') {

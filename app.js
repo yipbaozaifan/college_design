@@ -12,6 +12,7 @@ var port=process.env.PORT||3000;
 
 var app = express();
 
+
 app.set('views', path.join(__dirname, 'src'));//指明前端界面所存放的路径
 app.engine('html', ejs.__express);//使ejs模板引擎使用html文件，使node能解析html文件并投影到浏览器
 app.set('view engine', 'html');//设置render engine（模板引擎）
@@ -38,7 +39,7 @@ app.use(route);
 
 
 app.listen(port, function(){
-	console.log('listening on port %d in %s mode', port, app.settings.env);
+	console.log('listening on port %d in %s mode', port, process.env.NODE_ENV);
 });
 
 module.exports = app;
