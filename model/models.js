@@ -1,5 +1,4 @@
 var mongoose = require("mongoose");
-
 var db = mongoose.createConnection('mongodb://localhost/survey');
 //登录注册
 var UserSchema = new mongoose.Schema({
